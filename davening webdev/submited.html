@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+ 
+    
+</head>
+<body>
+    
+   <div class="body">
+        <h1 class="header">Thanks for your interest in playing with me</h1>
+        <div class="info">
+            <h2>This is your information</h2>
+            <div id="formData"></div>
+        </div>
+        <script>
+          
+            function getUrlParams() {
+                var params = {};
+                var urlParams = new URLSearchParams(window.location.search);
+                urlParams.forEach((value, key) => {
+                    params[key] = value;
+                });
+                return params;
+            }
+
+            
+            var params = getUrlParams();
+            var formDataDiv = document.getElementById('formData');
+            for (var key in params) {
+                if (params.hasOwnProperty(key)) {
+                    var p = document.createElement('p');
+                    p.textContent = key + ': ' + params[key];
+                    formDataDiv.appendChild(p);
+                }
+            }
+            
+        </script>
+    
+
+        
+        <p>While waiting you can go see what agents or rank are there in valorant</p>
+        <ul>
+            <a href="./agents.html"><li>Agents</li></a>
+            <a href="./ranks.html"><li>Ranks</li></a>
+        </ul>
+    </div>
+    <footer>
+        <p>Created by Daven Heng for Web development Final Project &copy;2024</p>
+    </footer>
+    
+
+</body>
+</html>
