@@ -59,7 +59,7 @@ body {
 }
 
 .navbar .navlinks {
-    color: white;
+
     font-size: 1.25rem;
     text-decoration: none;
     text-align: center;
@@ -74,14 +74,18 @@ body {
 }
 
 .selected-key {
+    color: white;
     font-size: 1.25rem;
     font-weight: bold;
-    color: white;
     background: #1e2129;
     width: 100%;
     padding: 15px;
     box-sizing: border-box;
     text-align: center;
+}
+.white-key{
+    color: black;
+    background-color: white;
 }
 
 #nav-toggle:checked ~ .navbar {
@@ -89,7 +93,7 @@ body {
 }
 
 #nav-toggle:checked ~ .top-bar .menu-icon .bar1 {
-    transform: rotate(-45deg) translate(-5px, 6px);
+    transform: rotate(-45deg) translate(-7px, 7px);
 }
 
 #nav-toggle:checked ~ .top-bar .menu-icon .bar2 {
@@ -97,5 +101,5 @@ body {
 }
 
 #nav-toggle:checked ~ .top-bar .menu-icon .bar3 {
-    transform: rotate(45deg) translate(-5px, -6px);
+    transform: rotate(45deg) translate(-10px, -10px);
 }
