@@ -20,16 +20,11 @@ def home():
 def signup():
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user is None:
-            new_user = User(username=form.username.data, email=form.email.data)
-            new_user.set_password(form.password.data)
-            db.session.add(new_user)
-            db.session.commit()
-            flash('Congratulations, you are now registered!', 'success')
-            return redirect(url_for('home', form_type='login'))
-        else:
-            flash('Username is already taken, please choose a different username.', 'signuperror')
+        new_user = User(username=form.username.data, email=form.email.data)
+        new_user.set_password(form.password.data)
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Congratulations, you are now registered!', 'success')
     elif form.errors:
         for field, errors in form.errors.items():
             for error in errors:
@@ -49,3 +44,7 @@ def login():
             flash('Invalid username or password.', 'loginerror')
     print(get_flashed_messages(with_categories=True))  # Debug print statement
     return render_template('home.html', form=form)
+
+@app.route('/uh')
+def uh():
+    return render_template('uh.html')
