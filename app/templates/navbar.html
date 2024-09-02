@@ -1,12 +1,39 @@
-<div>
-    <input type="checkbox" id="nav-toggle" class="nav-toggle">
-    <div class="top-bar">
-
-    </div>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Document</title>
+</head>
+<body>
     <div class="navbar">
-        <a href="{{ url_for('home') }}" class="navlinks {{ 'selected-key' if active_page == 'home' else 'white-key' }}">Home</a>
-        <a href="{{ url_for('about') }}" class="navlinks {{ 'selected-key' if active_page == 'about' else 'white-key' }}">About</a>
-
+        <div class="navbar-item">
+            <a href="loaning.html"><img src="static/img/loaning-icon.png" alt="Loaning">
+            <span>Loaning</span></a>
+        </div>
+        <div class="separator"></div>
+        <div class="navbar-item">
+            <a href="investment.html"><img src="static/img/investment-icon.png" alt="Investment">
+            <span>Investment</span></a>
+        </div>
+        <div class="separator"></div>
+        <div class="navbar-item active">
+            <img src="static/img/honeyjar-icon.png" alt="Honey jar">
+            <span>Honey Jar</span>
+        </div>
+        <div class="separator"></div>
+        <div class="navbar-item">
+            <a href="insurance.html"><img src="static/img/insurance-icon.png" alt="Insurance">
+            <span>Insurance</span></a>
+        </div>
+        <div class="separator"></div>
+        <div class="navbar-item">
+            <a href="social.html"><img src="static/img/social-icon.png" alt="Social">
+            <span>Social</span></a>
+        </div>
     </div>
-</div>
+</body>
+</html>
+
+

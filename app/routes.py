@@ -6,6 +6,6 @@ from app.models import User, db
 def home():
     return render_template('home.html')
 
-@app.route('/about')
-def about():
-    return render_template('about.html')
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')

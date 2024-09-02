@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+
+    font-size: 1rem;
+    font-family: silkscreen, 'Trebuchet MS', Arial, sans-serif;
+}
+.circle {
+    width: 60vh;
+    height: 60vh;
+    background-color: #333;
+    line-height: 60px;
+    border: 1px white solid;
+    border-radius: 50%;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    z-index: 2;
+    transition: background-color 0.4s;
+}
+
+.content{
+    width:100vh;
+    display: flex;
+    position: fixed;
+    top:30vh;
+    left: 20px;
+}
+
+.content form{
+    position: relative;
+    left:30vw;
+    background: rgba(255, 255, 255, 0.29);
+    display:flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
