@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect, url_for,flash
+from flask import render_template, request, redirect, url_for,flash,get_flashed_messages    
 from app.models import User, db
 from app.form import RegistrationForm, LoginForm
 
@@ -26,27 +26,26 @@ def signup():
             new_user.set_password(form.password.data)
             db.session.add(new_user)
             db.session.commit()
-            flash('Congratulations, you are now registered!')
+            flash('Congratulations, you are now registered!', 'success')
             return redirect(url_for('home', form_type='login'))
         else:
-            flash('User already exists. Please login.')
-            return redirect(url_for('home', form_type='login'))
+            flash('Username is already taken, please choose a different username.', 'signuperror')
+    elif form.errors:
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash(error, 'signuperror')
+    print(get_flashed_messages(with_categories=True))  # Debug print statement
     return render_template('home.html', form=form)
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    
     if form.validate_on_submit():
-        # Check if the user exists
         user = User.query.filter_by(username=form.username.data).first()
-        
         if user and user.check_password(form.password.data):
-            flash('Login successful!')
-            return redirect(url_for('uh'))  
+            return redirect(url_for('uh'))
         else:
-            flash('Invalid username or password.')
+            flash('Invalid username or password.', 'loginerror')
+    print(get_flashed_messages(with_categories=True))  # Debug print statement
     return render_template('home.html', form=form)
-    
-@app.route('/uh', methods=['GET', 'POST'])  
-def uh():
-    return render_template('uh.html')
