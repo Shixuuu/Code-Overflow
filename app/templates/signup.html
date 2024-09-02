@@ -1,0 +1,16 @@
+<!-- templates/signup.html -->
+<div class="form">
+    <form class="signup-form" method="post" action="{{ url_for('signup') }}">
+      {{ form.hidden_tag() }}
+      <input type="text" placeholder="Username" name="username">
+      <input type="email" name="email" placeholder="Email">
+      <input type="password" placeholder="Password" name="password">
+      <input type="password" name="confirm_password" placeholder="Confirm Password">
+      <button type="submit">signup</button>
+      <p class="message">Registered? <a href="{{url_for('home', form_type='login')}}">Login</a></p>
+      <div class="iconAndTitle">
+        <img src="{{ url_for('static', filename='img/beehive-removebg-preview.png') }}" alt="Icon">
+        <span>How to BEE a BEELLIONAIRE</span>
+      </div>
+    </form>
+</div>

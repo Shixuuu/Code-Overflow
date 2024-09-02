@@ -13,28 +13,23 @@
   <img src="static/img/WhatsApp Image 2024-09-02 at 2.44.53 PM.jpeg" class="backgroundbig">
   <img src="static/img/WhatsApp Image 2024-09-02 at 4.04.39 PM.jpeg" class="backgroundsmall">
     <div class="login-page">
-
-
-        <div class="form">
-          <form class="register-form">
-            <input type="text" placeholder="Name"/>
-            <input type="password" placeholder="Password"/>
-            <input type="text" placeholder="Email Address"/>
-            <button>Create</button>
-            <p class="message">Already registered? <a href="#">Sign In</a></p>
-          </form>
-          <form class="login-form">
-            <input type="text" placeholder="Username"/>
-            <input type="password" placeholder="Password"/>
-            <button>Login</button>
-            <p class="message">Not registered? <a href="#">Create an account</a></p>
-            <div class="iconAndTitle">
-              <img src="static/img/beehive-removebg-preview.png">
-              <span>How to BEE a BEELLIONAIRE</span>
-          </div>
-          </form>
-
+        <div class="form-container">
+            {% if form_type == 'signup' %}
+                {% include 'signup.html' %}
+            {% elif form_type == 'login' %}
+                {% include 'login.html' %}
+            {% endif %}
         </div>
-      </div>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+        <ul class="flashes">
+        {% for category, message in messages %}
+        <li class="flash {{ category }}">{{ message }}</li>
+            {% endfor %}
+    </ul>
+        {% endif %}
+    {% endwith %}
+
 </body>
 </html>
