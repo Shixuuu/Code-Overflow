@@ -19,9 +19,7 @@ def home():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = RegistrationForm()
-    print("Form method:", request.method)  # Debugging line
     if form.validate_on_submit():
-        print("Form is valid")  # Debugging line
         user = User.query.filter_by(username=form.username.data).first()
         if user is None:
             new_user = User(username=form.username.data, email=form.email.data)
@@ -33,6 +31,22 @@ def signup():
         else:
             flash('User already exists. Please login.')
             return redirect(url_for('home', form_type='login'))
-    else:
-        print("Form errors:", form.errors)  # Debugging line
     return render_template('home.html', form=form)
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    
+    if form.validate_on_submit():
+        # Check if the user exists
+        user = User.query.filter_by(username=form.username.data).first()
+        
+        if user and user.check_password(form.password.data):
+            flash('Login successful!')
+            return redirect(url_for('uh'))  
+        else:
+            flash('Invalid username or password.')
+    return render_template('home.html', form=form)
+    
+@app.route('/uh', methods=['GET', 'POST'])  
+def uh():
+    return render_template('uh.html')

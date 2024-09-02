@@ -1,7 +1,8 @@
 <!-- templates/login.html -->
 <div class="form">
     
-    <form class="login-form" method="post" action="{{url_for('home')}}">
+    <form class="login-form" method="post" action="{{url_for('login')}}">
+        {{ form.hidden_tag() }}
       <input type="text" placeholder="Username" name="username" />
       <input type="password" placeholder="Password" name="password" />
       <button type="submit">Login</button>
