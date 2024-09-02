@@ -1,12 +1,15 @@
 <div>
     <input type="checkbox" id="nav-toggle" class="nav-toggle">
     <div class="top-bar">
-
+        <label for="nav-toggle" class="menu-icon">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </label>
     </div>
 
     <div class="navbar">
         <a href="{{ url_for('home') }}" class="navlinks {{ 'selected-key' if active_page == 'home' else 'white-key' }}">Home</a>
         <a href="{{ url_for('about') }}" class="navlinks {{ 'selected-key' if active_page == 'about' else 'white-key' }}">About</a>
-
     </div>
 </div>

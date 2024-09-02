@@ -4,102 +4,146 @@
     box-sizing: border-box;
 }
 
+@media only screen and (max-width:600px){
+  .backgroundbig{
+    display:none;
+
+  }
+  .backgroundsmall{
+    display:block;
+    z-index: -1;
+    position:absolute;
+    width:100vw;
+    height:100vh;
+
+  }
+}
+
+
+@media only screen and (min-width:600px){
+  
+.backgroundsmall{
+  display:none;
+}
+}
+.backgroundbig{
+  display:block;
+  z-index: -1;
+  position:absolute;
+  width:100vw;
+  height:100vh;
+}
+
 body {
-    font-family: 'Trebuchet MS', Arial, sans-serif;
-    background-color: #fcf8e8;
+
     font-size: 1rem;
+    font-family: silkscreen, 'Trebuchet MS', Arial, sans-serif;
 }
 
-.top-bar {
-    position: fixed;
-    width: 100%;
-    height: 65px;
-    background-color: #333;
-    color: white;
+
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+
+.form {
+  position: relative;
+  background: rgba(255, 255, 255, 0.29);
+  width:60vw;
+  height:45vh;
+  top:25vh;
+  z-index: 1;
+  left:20vw;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  border-radius: 10px;
+}
+
+
+.iconAndTitle img{
+    width:15vh;
+    height:15vh;
+    
+}
+.iconAndTitle span{
+    align-content: center;
+    /* font-size: ; */
+}
+.iconAndTitle{
     display: flex;
-    align-items: center;
-    padding: 0 20px;
-    box-sizing: border-box;
-    z-index: 1000;
+    justify-content: center;
 }
-
-.menu-icon {
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 40px;
-    height: 30px;
+.form input {
+  font-family: silkscreen, 'Trebuchet MS', Arial, sans-serif;;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
 }
-
-.menu-icon div {
-    width: 40px;
-    height: 5px;
-    background-color: white;
-    border-radius: 5px;
-    transition: transform 0.4s ease, opacity 0.4s ease;
+.form button {
+  font-family: silkscreen, 'Trebuchet MS', Arial, sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #dbca2e;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
 }
-
-.nav-toggle {
-    display: none;
+.form button:hover,.form button:active,.form button:focus {
+  background: #b9aa29;
 }
-
-.navbar {
-    position: fixed;
-    top: 65px;
-    left: -250px; /* Start hidden */
-    width: 250px;
-    height: calc(100vh - 65px);
-    background-color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: left 0.3s ease;
-    z-index: 999;
+.form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
 }
-
-.navbar .navlinks {
-
-    font-size: 1.25rem;
-    text-decoration: none;
-    text-align: center;
-    width: 100%;
-    padding: 15px;
-    box-sizing: border-box;
-    transition: background-color 0.3s ease;
+.form .message a {
+  color: #4CAF50;
+  text-decoration: none;
 }
-
-.navbar .navlinks:hover {
-    background-color: #444;
+.form .register-form {
+  display: none;
+  font-family: silkscreen, 'Trebuchet MS', Arial, sans-serif;
 }
-
-.selected-key {
-    color: white;
-    font-size: 1.25rem;
-    font-weight: bold;
-    background: #1e2129;
-    width: 100%;
-    padding: 15px;
-    box-sizing: border-box;
-    text-align: center;
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+  margin: 0 auto;
 }
-.white-key{
-    color: black;
-    background-color: white;
+.container:before, .container:after {
+  content: "";
+  display: block;
+  clear: both;
 }
-
-#nav-toggle:checked ~ .navbar {
-    left: 0; /* Show the navbar when checkbox is checked */
+.container .info {
+  margin: 50px auto;
+  text-align: center;
 }
-
-#nav-toggle:checked ~ .top-bar .menu-icon .bar1 {
-    transform: rotate(-45deg) translate(-7px, 7px);
+.container .info h1 {
+  margin: 0 0 15px;
+  padding: 0;
+  font-size: 36px;
+  font-weight: 300;
+  color: #1a1a1a;
 }
-
-#nav-toggle:checked ~ .top-bar .menu-icon .bar2 {
-    opacity: 0;
+.container .info span {
+  color: #4d4d4d;
+  font-size: 12px;
 }
-
-#nav-toggle:checked ~ .top-bar .menu-icon .bar3 {
-    transform: rotate(45deg) translate(-10px, -10px);
+.container .info span a {
+  color: #000000;
+  text-decoration: none;
+}
+.container .info span .fa {
+  color: #EF3B3A;
 }

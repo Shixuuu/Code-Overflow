@@ -4,15 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
 </head>
 <body>
-    {% include 'navbar.html'%}
-    <div class="content">
-        <h1>Welcome to the Home Page</h1>
-        <p>This is the home page content.</p>
-        <p>h</p>
-        <p>huh</p>
-    </div>
+  <img src="static/img/WhatsApp Image 2024-09-02 at 2.44.53 PM.jpeg" class="backgroundbig">
+  <img src="static/img/WhatsApp Image 2024-09-02 at 4.04.39 PM.jpeg" class="backgroundsmall">
+    <div class="login-page">
+
+
+        <div class="form">
+          <form class="register-form">
+            <input type="text" placeholder="Name"/>
+            <input type="password" placeholder="Password"/>
+            <input type="text" placeholder="Email Address"/>
+            <button>Create</button>
+            <p class="message">Already registered? <a href="#">Sign In</a></p>
+          </form>
+          <form class="login-form">
+            <input type="text" placeholder="Username"/>
+            <input type="password" placeholder="Password"/>
+            <button>Login</button>
+            <p class="message">Not registered? <a href="#">Create an account</a></p>
+            <div class="iconAndTitle">
+              <img src="static/img/beehive-removebg-preview.png">
+              <span>How to BEE a BEELLIONAIRE</span>
+          </div>
+          </form>
+
+        </div>
+      </div>
 </body>
 </html>
