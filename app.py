@@ -1,13 +1,10 @@
-from flask import Flask, render_template
+from app import app
 
-app = Flask(__name__)
-
-@app.route('/')
-def home():
-    return render_template('home.html', active_page='home')
-@app.route('/about')
-def about():
-    return render_template('about.html',active_page='about')
-
-if __name__ == "__main__":
+if __name__ == '__main__':
+    with app.app_context():
+        # Create database tables
+        from app.models import db
+        db.create_all()
+    
+    # Run the app
     app.run(debug=True)
