@@ -3,18 +3,15 @@
   padding: 0;
   box-sizing: border-box;
 }
-
 #bg {
   width: 100%;
   height: 110vh; /* Full viewport height */
   background-size: cover;
   background-position: center;
   position: absolute;
-  top: 0; /* Ensure it starts at the top */
-  left: 0; /* Ensure it starts at the left */
+  top: 0;
+  left: 0;
 }
-
-
 .navbar {
   display: flex;
   position: absolute;
@@ -23,16 +20,14 @@
   background-color: #E2E2E2;
   position: relative;
   height: 100px;
-  position: fixed; /* Fix the navbar at the top */
-  top: 0; /* Ensure it stays at the top */
-  z-index: 1; /* Ensure it stays above the background */
+  z-index: 1; 
 }
 
 .navbar-item {
   text-align: center;
   flex: 1;
   position: relative;
-  z-index: 2; /* Ensure it stays above the background */
+  z-index: 2;
 }
 
 .navbar-item img {
@@ -218,13 +213,12 @@
 
 }
 .backgroundsmall{
-  width: 100%;
-  height: 110vh; /* Full viewport height */
-  background-size: cover;
-  background-position: center;
-  position: absolute;
-  top: 0; /* Ensure it starts at the top */
-  left: 0; /* Ensure it starts at the left */
+  display:block;
+  z-index: -1;
+  position:absolute;
+  width:100vw;
+  height:100vh;
+
 }
 }
 
@@ -235,19 +229,16 @@ display:none;
 }
 }
 .backgroundbig{
-  width: 100%;
-  height: 110vh; /* Full viewport height */
-  background-size: cover;
-  background-position: center;
-  position: absolute;
-  top: 0; /* Ensure it starts at the top */
-  left: 0; /* Ensure it starts at the left */
+display:block;
+z-index: -1;
+position:absolute;
+width:100vw;
+height:100vh;
 }
 
 body {
   font-size: 1rem;
   font-family: silkscreen, 'Trebuchet MS', Arial, sans-serif;
-  overflow: hidden; /* Hide scrollbars */
 }
 
 
@@ -256,88 +247,19 @@ body {
 .login-page{
   top:100px;
 }
-.form-wrapper {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-
-   /* Ensure wrapper takes full viewport height */
-}
-
 .form {
-  position: relative;
-  background: rgba(255, 255, 255, 0.29); /* Translucent background */
-  width: 90vw; /* Allow width to adjust based on content */
-  padding: 45px;
-  top:25vh;
-  left:5vw;
-  text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-  border-radius: 10px;
-  z-index: 1;
+position: relative;
+background: rgba(255, 255, 255, 0.29);
+width:60vw;
+height:45vh;
+top:25vh;
+z-index: 1;
+left:20vw;
+padding: 45px;
+text-align: center;
+box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+border-radius: 10px;
 }
-
-.iconAndTitle img {
-  width: 15vh;
-  height: 15vh;
-}
-
-.iconAndTitle {
-  display: flex;
-  justify-content: center;
-}
-
-.form input {
-  font-family: silkscreen, 'Trebuchet MS', Arial, sans-serif;
-  outline: 0;
-  background: #f2f2f2;
-  width: 100%;
-  border: 0;
-  margin: 0 0 15px;
-  padding: 15px;
-  box-sizing: border-box;
-  font-size: 14px;
-}
-
-.form button {
-  font-family: silkscreen, 'Trebuchet MS', Arial, sans-serif;
-  text-transform: uppercase;
-  outline: 0;
-  background: #dbca2e;
-  width: 100%;
-  border: 0;
-  padding: 15px;
-  color: #FFFFFF;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.form button:hover,
-.form button:active,
-.form button:focus {
-  background: #b9aa29;
-}
-
-.form .message {
-  margin: 15px 0 0;
-  color: #b3b3b3;
-  font-size: 12px;
-}
-
-.form .message a {
-  color: #4CAF50;
-  text-decoration: none;
-}
-
-.form .register-form {
-  display: none;
-  font-family: silkscreen, 'Trebuchet MS', Arial, sans-serif;
-}
-
-
 
 
 .iconAndTitle img{
@@ -353,7 +275,47 @@ body {
   display: flex;
   justify-content: center;
 }
-
+.form input {
+font-family: silkscreen, 'Trebuchet MS', Arial, sans-serif;;
+outline: 0;
+background: #f2f2f2;
+width: 100%;
+border: 0;
+margin: 0 0 15px;
+padding: 15px;
+box-sizing: border-box;
+font-size: 14px;
+}
+.form button {
+font-family: silkscreen, 'Trebuchet MS', Arial, sans-serif;
+text-transform: uppercase;
+outline: 0;
+background: #dbca2e;
+width: 100%;
+border: 0;
+padding: 15px;
+color: #FFFFFF;
+font-size: 14px;
+-webkit-transition: all 0.3 ease;
+transition: all 0.3 ease;
+cursor: pointer;
+}
+.form button:hover,.form button:active,.form button:focus {
+background: #b9aa29;
+}
+.form .message {
+margin: 15px 0 0;
+color: #b3b3b3;
+font-size: 12px;
+}
+.form .message a {
+color: #4CAF50;
+text-decoration: none;
+}
+.form .register-form {
+display: none;
+font-family: silkscreen, 'Trebuchet MS', Arial, sans-serif;
+}
 .container {
 position: relative;
 z-index: 1;
@@ -400,45 +362,26 @@ color: #EF3B3A;
 }
 .popup.show {
   display: block;
+  background: rgba(255, 255, 255, 0.29);
+  box-shadow: 0px 10px 10px black;
+  border-radius: 10px;
+  
 }
 .popup .message {
   margin-bottom: 20px;
 }
 .popup button {
-  background: #007bff;
+  transition:ease-in-out 0.2s;
+  background:#ffa800;
   color: #fff;
   border: none;
   padding: 10px;
   cursor: pointer;
+  border-radius: 10px;
 }
 .popup button:hover {
-  background: #0056b3;
-}
-#poly{
-  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); 
-}
-#img{
-  height: 40px;
-  width: 40px
-}
-#tablename{
-  font-size:150%;
-  margin-left:15px
-}
-td{
-  height: 40px;
-}
-#loantable{
-  border-color: transparent;margin-top:3px;margin-bottom:3px; 
-  width:100%;padding:5px;background: #ffcc59; border-radius: 7px;
-}
-#friendtable{
-  border-color: transparent; margin-top:5px;margin-bottom: 5px;
-  width:100%;padding:5px;background: #cfcfcf; border-radius: 7px;
-}
-#bgfriend{
-  background-image: url(default_bg.png);
-}
-div{
-  font-family: silkscreen, Arial, Helvetica, sans-serif;
+  transform:scale(1.1);
+  transition:ease-in-out 0.2s;
+  box-shadow: 0px 5px 5px black;
+  
 }

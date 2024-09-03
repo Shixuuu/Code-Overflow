@@ -1,16 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-    <title>Document</title>
-</head>
-<body>
+<html>
+<style>
+#hexbutton{
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    background: #ffa800;
+}
+#img{
+    height:65px;width:65px;
+}
+#tablename{
+    font-size:170%;
+    margin-left:30px
+}
+#friendtable{
+    border-color: transparent; margin-top:7px;margin-bottom: 7px;
+    width:100%;padding:7px;background: #cfcfcf; border-radius: 7px;
+}
+#bg{
+    background-image: url(default_bg.png);
+}
+#search{
+    width:45px;height:45px;margin-bottom:-15px
+}
+#search:hover{
+    cursor: url(searchcursor.png)
+}
+</style>
 {% include 'navbar.html'%}
-<br>
-<img src="static/img/WhatsApp Image 2024-09-02 at 2.44.53 PM.jpeg" class="backgroundbig">
-<img src="static/img/WhatsApp Image 2024-09-02 at 4.04.39 PM.jpeg" class="backgroundsmall">
+<div id="bg" style="display:flex;align-items: center;justify-content: center;flex-direction: column;padding-bottom:80px">
+    <div style="width: 75%;background:#e2e2e2;display: flex;flex-direction: row;margin-top:100px">
+        <form style="width:80%">
+            <input style="margin:4%;margin-right:0;padding:15px 200px;font-size:120%;text-align: center;border:0;background:#ffcc59;outline:none;" type="search" id="searchbar" name="q" placeholder="Search bar">
+            <img src="search.png">
+        </form>
+        <div style="width: 20%;">
+            <div id="hexbutton" style="height:75px;width:150px;display: flex;align-items: center;justify-content: center;margin-top: 10%;margin-bottom: 10%;">
+                <div style="display:block;text-align: center;font-size: 120%;">
+                    Add Friend
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="width:75%;background:#e2e2e2;display:flex;justify-content:center">
+        <div id="add friends here" style="width:90%;display:flex;flex-direction: column;align-items: flex-start;overflow:auto;height:400px">
+            <table id="friendtable"><tr><td><div style='display:flex;flex-direction: row;justify-content: space-between'><div style="display:flex;flex-direction: row;align-items: center;"><img src="pack.png" id="img"><span id="tablename">name</span></div><div style="padding:15px 30px;text-decoration: underline;font-weight: bold;background-color: #ffa800;border-radius: 15px;font-size: 175%;">$4444</div></div></td></tr></table>
+        </div>
+        <div id="no friends" style="margin-left:auto;margin-right:auto;font-size:150%;display:none;margin-top:15px">
+            No friends
+        </div>
+    </div>
 </div>
-</body>
+<script>
+var friendlist = [['bee1.png','name',2763],['bee1.png','name',2763],['bee1.png','name',2763],['bee1.png','name',2763]]; //pull all friend and convert to a list
+//eg. friendlist = [['bee1.png','name',2763]]
+if (friendlist.length == 0){
+    document.getElementById("no friends").style.display = 'block';
+}
+else{
+    for (i=0;i<friendlist.length;i++){
+        document.getElementById("add friends here").innerHTML += `<table id="friendtable"><tr><td><div style='display:flex;flex-direction: row;justify-content: space-between'><div style="display:flex;flex-direction: row;align-items: center;"><img src="${friendlist[i][0]}" id="img"><span id="tablename">${friendlist[i][1]}</span></div><div style="padding:15px 30px;text-decoration: underline;font-weight: bold;background-color: #ffa800;border-radius: 15px;font-size: 175%;">$${friendlist[i][2]}</div></div></td></tr></table>`
+    }
+}
+</script>
 </html>
