@@ -1,86 +1,28 @@
 <!DOCTYPE html>
-<style>
-    #poly{
-        clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); 
-    }
-    #img{
-        height: 40px;
-        width: 40px
-    }
-    #tablename{
-        font-size:150%;
-        margin-left:15px
-    }
-    td{
-        height: 40px;
-    }
-    #loantable{
-        border-color: transparent;margin-top:3px;margin-bottom:3px; 
-        width:100%;padding:5px;background: #ffcc59; border-radius: 7px;
-    }
-    #friendtable{
-        border-color: transparent; margin-top:5px;margin-bottom: 5px;
-        width:100%;padding:5px;background: #cfcfcf; border-radius: 7px;
-    }
-    #bg{
-        background-image: url(default_bg.png);
-    }
-    div{
-        font-family: silkscreen, Arial, Helvetica, sans-serif;
-    }
-</style>
 <html>
-    {% include 'navbar.html'%}
-    <div id='bg' style="display:flex;flex-direction: row;">
-        <div style="width:50%;display:flex;justify-content: center;">
-            <div id="poly" style="padding: 35%; margin: 10%; background: #ffa800;display:flex;justify-content: center;">
-                <div id="add loans here" style="display:flex;flex-direction: column;align-items: flex-start;position:absolute;z-index: 99;margin-top:-11%;width: 30%">
-                    <div style="text-align: center;font-size: 200%;margin-left:auto;margin-right:auto;margin-bottom: 15px;">
-                        Loans
-                    </div>
-                    <div id="no ongoing loans" style="margin-left:auto;margin-right:auto;font-size:150%;display:none;margin-top:15px">
-                        No ongoing loans
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div style="width: 50%;display:flex;justify-content: center;flex-direction: column;">
-            <div style="padding: 7px;;background: #e2e2e2; margin-left: 10%;margin-right:10%;margin-top:10%;padding-top: 20px">
-                <div style="font-size: 150%;text-align: center;background-color: #ffcc59;padding:15px;margin-left:15px;margin-right:15px">
-                    Friend List
-                </div>
-            </div>
-            <div style="padding:35%;margin: 10%;margin-top:0; background: #e2e2e2;display:flex;justify-content: center;">
-                <div id="add friends here" style="display:flex;flex-direction: column; align-items:flex-start;position: absolute;width:35%;margin-top: -17%;overflow:auto;height:65%">
-                    <div id="no friends" style="margin-left:auto;margin-right:auto;font-size:120%;display:none;margin-top:15px">
-                        No friends
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+{% include 'navbar.html'%}
+<div id="bg"> <!--body-->
+
+</div>
 <script>
-var loanlist = []; //pull all loans and convert to list
-//eg. loanlist = [['bee1.png','name','120'],['bee4.png','name2','250']]
-if (loanlist.length == 0){
-    document.getElementById("no ongoing loans").style.display = 'block';
-    console.log(true)
-}
-else{
-    for (i=0;i<loanlist.length;i++){
-        document.getElementById("add loans here").innerHTML += `<table id="loantable"><tr><td><div style='display:flex;flex-direction: row;justify-content: space-between'><div style="display:flex;flex-direction: row;align-items: center;"><img src="${loanlist[i][0]}" id="img"><span id="tablename">${loanlist[i][1]}</span></div><div style="padding:10px;background-color: #ffa800;border-radius: 7px;">$${loanlist[i][2]}</div></div></td></td></tr></table>`;
+    var sector = 'it'; //THIS IS TEMPORARY, PULL FROM DATABASE
+    if (sector=='it'){ //if sector is IT, change background img to IT
+        document.getElementById("bg").css = ('background-image',url('./static/img/it.png'));
     }
-}
-// now pray it works as intended
-var friendlist = []; //pull all friend and convert to a list
-//eg. friendlist = [['bee1.png','name']]
-if (friendlist.length == 0){
-    document.getElementById("no friends").style.display = 'block';
-}
-else{
-    for (i=0;i<friendlist.length;i++){
-        document.getElementById("add friends here").innerHTML += `<table id="friendtable"><tr><td><div style='display:flex;flex-direction: row;justify-content: space-between'><div style="display:flex;flex-direction: row;align-items: center;"><img src="${friendlist[i][0]}" id="img"><span id="tablename">${friendlist[i][1]}</span></div><div style="padding:15px;background-color: #ffa800;border-radius: 7px;">Loan</div></div></td></tr></table>`
+    else if (sector=='finance'){
+        document.getElementById("bg").css = ('background-image',url('./static/img/finance.png'));
     }
-}
+    else if (sector=='media'){
+        document.getElementById("bg").css = ('background-image',url('./static/img/media.png'));
+    }
+    else if (sector=='education'){
+        document.getElementById("bg").css = ('background-image',url('./static/img/education.png'));
+    }
+    else if (sector=='manufacturing'){
+        document.getElementById("bg").css = ('background-image',url('./static/img/manufacturing.png'));
+    }
+    else if (sector=='agriculture'){
+        document.getElementById("bg").css = ('background-image',url('./static/img/agriculture.png'));
+    }
 </script>
 </html>

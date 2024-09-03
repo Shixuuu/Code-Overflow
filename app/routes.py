@@ -48,21 +48,3 @@ def login():
 @app.route('/uh')
 def uh():
     return render_template('uh.html')
-
-
-@app.route('/profile')
-def profile():
-    return render_template('profile.html')
-
-@app.route('/insurance')
-def insurance():
-    return render_template('insurance.html')
-
-@app.route("/loaning")
-def loaning():
-    return render_template('loaning.html')
-
-
-@app.route('/social')
-def social():
-    return render_template('social.html')
