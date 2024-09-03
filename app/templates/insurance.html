@@ -1,28 +1,73 @@
 <!DOCTYPE html>
-<html>
-{% include 'navbar.html'%}
-<div id="bg"> <!--body-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        .insuranceimage{
+            position: absolute;
+            top:20vh;
+            width:90vw;
+            height:80vh;
+            left:5vw;
 
-</div>
-<script>
-    var sector = 'it'; //THIS IS TEMPORARY, PULL FROM DATABASE
-    if (sector=='it'){ //if sector is IT, change background img to IT
-        document.getElementById("bg").css = ('background-image',url('./static/img/it.png'));
+        }
+
+
+        .background{
+            display:block;
+            z-index: -1;
+            position:absolute;
+            top:0;
+            width:100vw;
+            height:100vh;
+        }
+
+    .insurance_button {
+        position: absolute;
+        border-style: none;
+        padding: 15px;
+        padding-left: 20px;
+        padding-right: 20px;
+        background-color: #ffde59;
+        font-size: 15px;
+        clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
     }
-    else if (sector=='finance'){
-        document.getElementById("bg").css = ('background-image',url('./static/img/finance.png'));
+
+    #button1 {
+
+        margin-top: 71vh;
+        margin-left: 17.5vw;
     }
-    else if (sector=='media'){
-        document.getElementById("bg").css = ('background-image',url('./static/img/media.png'));
+
+    #button2 {
+        margin-top: 47vh;
+        margin-left: 37.5vw;
     }
-    else if (sector=='education'){
-        document.getElementById("bg").css = ('background-image',url('./static/img/education.png'));
+
+    #button3 {
+        margin-top: 71vh;
+        margin-left: 58vw;
     }
-    else if (sector=='manufacturing'){
-        document.getElementById("bg").css = ('background-image',url('./static/img/manufacturing.png'));
+
+    #button4 {
+        margin-top: 45vh;
+        margin-left: 78.5vw;
     }
-    else if (sector=='agriculture'){
-        document.getElementById("bg").css = ('background-image',url('./static/img/agriculture.png'));
-    }
-</script>
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    {% include 'navbar.html'%}
+    <img src="{{ url_for('static', filename='img/insurancebg.png') }}" alt="Icon" class="background">
+    <img src="{{ url_for('static', filename='img/insurance.png') }}" alt="Icon" class="insuranceimage">
+    <button id='button1' class='insurance_button'>$500</button>
+    <button id='button2' class='insurance_button'>$2000</button>
+    <button id='button3' class='insurance_button'>$5000</button>
+    <button id='button4' class='insurance_button'>$10000</button>
+</body>
 </html>
