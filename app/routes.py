@@ -1,8 +1,21 @@
 from app import app
 from flask import render_template, request, redirect, url_for,flash,session
-from app.models import User, db
+from app.models import User, Friend, db
 from app.form import RegistrationForm, LoginForm
 
+
+def make_everyone_friends():
+    users = User.query.all()
+    for user in users:
+        for friend in users:
+            if user.id != friend.id:
+                # Check if the friendship already exists
+                existing_friendship = Friend.query.filter_by(user_id=user.id, friend_id=friend.id).first()
+                if not existing_friendship:
+                    new_friend = Friend(user_id=user.id, friend_id=friend.id, friend_name=friend.username, friend_image="path/to/default/image.jpg")
+                    db.session.add(new_friend)
+                    print(f"Added {friend.username} as friend to {user.username}")
+    db.session.commit()
 @app.route('/')
 def home():
     # Default form type
@@ -58,23 +71,49 @@ def personalized_questions(user_id):
         return redirect(url_for('homepage'))
     return render_template('whenin/personalized_questions.html', user=user)
 
+@app.route('/friends/<int:user_id>')
+def friends(user_id):
+    user = User.query.get(user_id)
+    if user:
+        friends = Friend.query.filter_by(user_id=user_id).all()
+        return render_template('whenin/loaning.html', user=user, friends=friends)
+    else:
+        return "User not found", 404
+
+@app.route('/make_friends')
+def make_friends():
+    make_everyone_friends()
+    return "All users are now friends with each other!"
+
 @app.route('/homepage')
 def homepage():
-    return render_template('whenin/homepage.html')
-@app.route('/social')
-def social():
-    return render_template('whenin/social.html') 
-@app.route('/insurance')
-def insurance():
-    return render_template('whenin/insurance.html')
+    user_id = session.get('user_id')
+    return render_template('whenin/homepage.html', user_id=user_id)
+
 @app.route('/investment')
 def investment():
-    user_id = session.get('user_id')  # Assuming user_id is stored in session
+    user_id = session.get('user_id')
     if user_id:
         user = User.query.get(user_id)
-        return render_template('whenin/investment.html', user=user)
+        return render_template('whenin/investment.html', user=user, user_id=user_id)
     else:
-        return redirect(url_for('login'))  # Redirect to login if user is not logged in
-@app.route('/loaning')
-def loaning():
-    return render_template('whenin/loaning.html')    
+        return redirect(url_for('login'))
+
+@app.route('/insurance')
+def insurance():
+    user_id = session.get('user_id')
+    return render_template('whenin/insurance.html', user_id=user_id)
+
+@app.route('/social')
+def social():
+    user_id = session.get('user_id')
+    return render_template('whenin/social.html', user_id=user_id)
+@app.route('/loaning/<int:user_id>')
+def loaning(user_id):
+    user = User.query.get(user_id)
+    if user:
+        friends = Friend.query.filter_by(user_id=user_id).all()
+        return render_template('whenin/loaning.html', user=user, friends=friends, user_id=user_id)
+    else:
+        return "User not found", 404
+

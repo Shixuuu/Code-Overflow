@@ -414,3 +414,31 @@ color: #EF3B3A;
 .popup button:hover {
   background: #0056b3;
 }
+#poly{
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); 
+}
+#img{
+  height: 40px;
+  width: 40px
+}
+#tablename{
+  font-size:150%;
+  margin-left:15px
+}
+td{
+  height: 40px;
+}
+#loantable{
+  border-color: transparent;margin-top:3px;margin-bottom:3px; 
+  width:100%;padding:5px;background: #ffcc59; border-radius: 7px;
+}
+#friendtable{
+  border-color: transparent; margin-top:5px;margin-bottom: 5px;
+  width:100%;padding:5px;background: #cfcfcf; border-radius: 7px;
+}
+#bgfriend{
+  background-image: url(default_bg.png);
+}
+div{
+  font-family: silkscreen, Arial, Helvetica, sans-serif;
+}

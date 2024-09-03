@@ -3,29 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+    <title>Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
 <body>
-    {% include 'navbar.html'%}
+    {% include 'navbar.html' %}
     <div class="content">
-    <span class="circle"> </span>
-    <form>
-        <input type="text" placeholder="USERNAME FROM DB">
-        <br>
-        <input type="text" placeholder="EMAIL FROM DB">
-        <br>
-        <button>Reset My password</button>
-        <br>
-        <button>Cancel</button>
-        <br>
-       <input type="submit" value="Submit">
-
-    </form>
-    
+        <span class="circle"></span>
+        <form>
+            <input type="text" placeholder="USERNAME FROM DB">
+            <br>
+            <input type="text" placeholder="EMAIL FROM DB">
+            <br>
+            <button>Reset My password</button>
+            <br>
+            <button>Cancel</button>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
     </div>
 </body>
-
 </html>
