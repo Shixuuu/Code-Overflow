@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+#bg{
+  background-image: url(./static/img/agriculture.png);
+}
+
 .navbar {
   display: flex;
   position: absolute;
