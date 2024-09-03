@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect, url_for,flash,get_flashed_messages    
+from flask import render_template, request, redirect, url_for,flash,session
 from app.models import User, db
 from app.form import RegistrationForm, LoginForm
 
@@ -38,14 +38,34 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user and user.check_password(form.password.data):
-            return redirect(url_for('homepage'))
+            session['user_id'] = user.id  # Store user_id in session
+            if user.first_login:
+                return redirect(url_for('personalized_questions', user_id=user.id))
+            else:
+                return redirect(url_for('homepage'))
         else:
             flash('Invalid username or password.', 'loginerror')
     return render_template('signinpage.html', form=form)
+@app.route('/personalized_questions/<int:user_id>', methods=['GET', 'POST'])
+def personalized_questions(user_id):
+    user = User.query.get(user_id)
+    if request.method == 'POST':
+        sector = request.form.get('sector')
+        if sector:
+            user.sector = sector
+            user.first_login = False
+            db.session.commit()
+        return redirect(url_for('homepage'))
+    return render_template('whenin/personalized_questions.html', user=user)
 
 @app.route('/homepage')
 def homepage():
-    return render_template('whenin/homepage.html')
+    user_id = session.get('user_id')  # Assuming user_id is stored in session
+    if user_id:
+        user = User.query.get(user_id)
+        return render_template('whenin/homepage.html', user=user)
+    else:
+        return redirect(url_for('login'))  # Redirect to login if user is not logged in
 @app.route('/social')
 def social():
     return render_template('whenin/social.html') 
