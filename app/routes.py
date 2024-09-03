@@ -60,12 +60,7 @@ def personalized_questions(user_id):
 
 @app.route('/homepage')
 def homepage():
-    user_id = session.get('user_id')  # Assuming user_id is stored in session
-    if user_id:
-        user = User.query.get(user_id)
-        return render_template('whenin/homepage.html', user=user)
-    else:
-        return redirect(url_for('login'))  # Redirect to login if user is not logged in
+    return render_template('whenin/homepage.html')
 @app.route('/social')
 def social():
     return render_template('whenin/social.html') 
@@ -74,7 +69,12 @@ def insurance():
     return render_template('whenin/insurance.html')
 @app.route('/investment')
 def investment():
-    return render_template('whenin/investment.html')
+    user_id = session.get('user_id')  # Assuming user_id is stored in session
+    if user_id:
+        user = User.query.get(user_id)
+        return render_template('whenin/investment.html', user=user)
+    else:
+        return redirect(url_for('login'))  # Redirect to login if user is not logged in
 @app.route('/loaning')
 def loaning():
     return render_template('whenin/loaning.html')    
