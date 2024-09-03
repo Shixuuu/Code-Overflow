@@ -1,0 +1,44 @@
+<!-- templates/popup.html -->
+<div id="popup" class="popup">
+    <div class="message">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                {% if category in ['loginerror', 'signuperror', 'success'] %}
+                    <p>{{ message }}</p>
+                {% endif %}
+            {% endfor %}
+        {% endwith %}
+    </div>
+    <button id="popup-button" onclick="redirectToPage()">OK</button>
+</div>
+<script>
+    // Function to show the popup
+    function showPopup() {
+        var popup = document.getElementById('popup');
+        if (popup) {
+            popup.classList.add('show');
+        }
+    }
+
+    // Function to handle redirection based on the error category
+    function redirectToPage() {
+        var category = document.getElementById('popup').getAttribute('data-category');
+        if (category === 'signuperror') {
+            window.location.href = "{{ url_for('home', form_type='signup') }}";
+        } else if (category === 'loginerror' || category === 'success') {
+            window.location.href = "{{ url_for('home', form_type='login') }}";
+        }
+    }
+
+    // Show the popup if there is an error message or success message
+    window.onload = function() {
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                {% if category in ['signuperror', 'loginerror', 'success'] %}
+                    document.getElementById('popup').setAttribute('data-category', '{{ category }}');
+                    showPopup();
+                {% endif %}
+            {% endfor %}
+        {% endwith %}
+    };
+</script>
