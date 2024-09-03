@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Questions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+    <div class="content">
+        <form method="post">
+            <label for="sector">What sector you want to work at?</label>
+            <div>
+                <input type="radio" id="it" name="sector" value="it">
+                <label for="it">Information Technology</label>
+            </div>
+            <div>
+                <input type="radio" id="finance" name="sector" value="finance">
+                <label for="finance">finance</label>
+            </div>
+            <div>
+                <input type="radio" id="education" name="sector" value="education">
+                <label for="education">education</label>
+            </div>
+            <div>
+                <input type="radio" id="agriculture" name="sector" value="agriculture">
+                <label for="agriculture">agriculture</label>
+            </div>
+            <div>
+                <input type="radio" id="manufacturing" name="sector" value="manufacturing">
+                <label for="manufacturing">manufacturing</label>
+            </div>
+            <div>
+                <input type="radio" id="media" name="sector" value="media">
+                <label for="media">Entertainment and Media</label>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
