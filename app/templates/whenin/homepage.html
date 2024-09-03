@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <title>Document</title>
+</head>
+<body>
+{% include 'navbar.html'%}
+<br>
+<div id="bg"> <!-- Ensure this element has the id "bg" -->
+</div>
+</body>
+<script>
+var sector = 'it'; //THIS IS TEMPORARY, PULL FROM DATABASE
+var bgElement = document.getElementById("bg");
+
+if (sector == 'it') {
+    bgElement.style.backgroundImage = "url('{{ url_for('static', filename='img/it.png') }}')";
+} else if (sector == 'finance') {
+    bgElement.style.backgroundImage = "url('{{ url_for('static', filename='img/finance.png') }}')";
+} else if (sector == 'media') {
+    bgElement.style.backgroundImage = "url('{{ url_for('static', filename='img/media.png') }}')";
+} else if (sector == 'education') {
+    bgElement.style.backgroundImage = "url('{{ url_for('static', filename='img/education.png') }}')";
+} else if (sector == 'manufacturing') {
+    bgElement.style.backgroundImage = "url('{{ url_for('static', filename='img/manufacturing.png') }}')";
+} else if (sector == 'agriculture') {
+    bgElement.style.backgroundImage = "url('{{ url_for('static', filename='img/agriculture.png') }}')";
+}
+</script>
+</html>

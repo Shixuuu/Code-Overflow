@@ -13,7 +13,7 @@ def home():
     else:
         form = LoginForm()
     
-    return render_template('home.html', form_type=form_type, form=form)
+    return render_template('signinpage.html', form_type=form_type, form=form)
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -29,8 +29,7 @@ def signup():
         for field, errors in form.errors.items():
             for error in errors:
                 flash(error, 'signuperror')
-    print(get_flashed_messages(with_categories=True))  # Debug print statement
-    return render_template('home.html', form=form)
+    return render_template('signinpage.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -39,12 +38,23 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user and user.check_password(form.password.data):
-            return redirect(url_for('uh'))
+            return redirect(url_for('homepage'))
         else:
             flash('Invalid username or password.', 'loginerror')
-    print(get_flashed_messages(with_categories=True))  # Debug print statement
-    return render_template('home.html', form=form)
+    return render_template('signinpage.html', form=form)
 
-@app.route('/uh')
-def uh():
-    return render_template('uh.html')
+@app.route('/homepage')
+def homepage():
+    return render_template('whenin/homepage.html')
+@app.route('/social')
+def social():
+    return render_template('whenin/social.html') 
+@app.route('/insurance')
+def insurance():
+    return render_template('whenin/insurance.html')
+@app.route('/investment')
+def investment():
+    return render_template('whenin/investment.html')
+@app.route('/loaning')
+def loaning():
+    return render_template('whenin/loaning.html')    
