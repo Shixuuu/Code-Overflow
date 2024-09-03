@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <title>Loaning</title>
+</head>
+<body>
+{% include 'navbar.html'%}
+<br>
+<img src="{{ url_for('static', filename='img/WhatsApp Image 2024-09-02 at 2.44.53 PM.jpeg') }}" class="backgroundbig">
+<img src="{{ url_for('static', filename='img/WhatsApp Image 2024-09-02 at 4.04.39 PM.jpeg') }}" class="backgroundsmall">
+<div id='bgfriend' style="display:flex;flex-direction: row;">
+    <div style="width:50%;display:flex;justify-content: center;">
+        <div id="poly" style="padding: 35%; margin: 10%; background: #ffa800;display:flex;justify-content: center;">
+            <div id="add-loans-here" style="display:flex;flex-direction: column;align-items: flex-start;position:absolute;z-index: 99;margin-top:-11%;width: 30%">
+                <div style="text-align: center;font-size: 200%;margin-left:auto;margin-right:auto;margin-bottom: 15px;">
+                    Loans
+                </div>
+                <div id="no-ongoing-loans" style="margin-left:auto;margin-right:auto;font-size:150%;display:none;margin-top:15px">
+                    No ongoing loans
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="width: 50%;display:flex;justify-content: center;flex-direction: column;">
+        <div style="padding: 7px;;background: #e2e2e2; margin-left: 10%;margin-right:10%;margin-top:10%;padding-top: 20px">
+            <div style="font-size: 150%;text-align: center;background-color: #ffcc59;padding:15px;margin-left:15px;margin-right:15px">
+                Friend List
+            </div>
+        </div>
+        <div style="padding:35%;margin: 10%;margin-top:0; background: #e2e2e2;display:flex;justify-content: center;">
+            <div id="add-friends-here" style="display:flex;flex-direction: column; align-items:flex-start;position: absolute;width:35%;margin-top: -17%;overflow:auto;height:65%">
+                <div id="no-friends" style="margin-left:auto;margin-right:auto;font-size:120%;display:none;margin-top:15px">
+                    No friends
+                </div>
+                {% for friend in friends %}
+                <table id="friendtable">
+                    <tr>
+                        <td>
+                            <div style='display:flex;flex-direction: row;justify-content: space-between'>
+                                <div style="display:flex;flex-direction: row;align-items: center;">
+                                    <img src="{{ url_for('static', filename=friend.friend_image) }}" id="img">
+                                    <span id="tablename">{{ friend.friend_name }}</span>
+                                </div>
+                                <div style="padding:15px;background-color: #ffa800;border-radius: 7px;">Loan</div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
