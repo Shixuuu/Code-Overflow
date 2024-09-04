@@ -1,4 +1,4 @@
-@@ -0,0 +1,23 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,16 +9,140 @@
          .settings{
             width: 125px;
             height:125px;
-
             position:absolute;
             bottom: 20px;
             right:20px;
         }
+        .circlee {
+            width: 60px;
+            height: 60px;
+            background-color: #ffe159;
+            border-radius: 50%;
+            border: 2px black solid;
+            text-decoration: none;
+            z-index: 2;
+        }
 
-        </style>
+        .clip {
+            bottom: 30px;
+            right: 30px;
+            height: 64px;
+            width: 34px;
+            position: fixed;
+            overflow: hidden;
+            transform: rotate(180deg);
+            z-index: 2;
+        }
+
+        .block {
+            bottom: 30px;
+            right: 10px;
+            height: 64px;
+            width: 52px;
+            position: fixed;
+            background-color: #EFD564;
+            z-index: 1;
+        }
+
+        .block2 {
+            bottom: 30px;
+            right: 0px;
+            height: 64px;
+            width: 30px;
+            position: fixed;
+            background-color: #EFD564;
+            z-index: 3;
+        }
+
+        .rec {
+            width: 160px;
+            height: 60px;
+            background-color:#ffe159;
+            line-height: 60px;
+            right: -100px;
+            bottom: 30px;
+            position: fixed;
+            z-index: 1;
+            transition: transform 0.4s;
+            border: 2px black solid;
+            border-left: none;
+        }
+
+        .username {
+            line-height: 60px;
+            right: -80px;
+            bottom: 30px;
+            position: fixed;
+            z-index: 3;
+            transition: transform 0.4s;
+            border-left: none;
+            color: black;
+            padding-left: 30px;
+        }
+
+        .cir {
+            width: 60px;
+            height: 60px;
+            background-color:#ffe159;
+            line-height: 60px;
+            border: 2px black solid;
+            right: 30px;
+            bottom: 30px;
+            position: fixed;
+            border-radius: 50%;
+            z-index: 1;
+            transition: transform 0.4s;
+        }
+
+        .profile-button:hover .username {
+            transform: translateX(-130px);
+        }
+        .profile-button:hover .rec {
+            background-color: #ffe159;
+            transform: translateX(-130px);
+        }
+
+        .profile-button:hover .cir {
+            background-color: #ffe159;
+            transform: translateX(-130px);
+        }
+
+        .profile-button:hover .pfp-container {
+            transform: translateX(-130px);
+        }
+
+        .pfp-container {
+            bottom: 32px;
+            right: 32px;
+            position: fixed;
+            height: 60px;
+            width: 60px;
+            overflow: hidden;
+            border-radius: 50%;
+            transition: transform 0.4s;
+            z-index: 2;
+        }
+
+        .pfp-container img {
+            height: 60px;
+            width: 60px;
+            transform: scale(0.75);
+            right: -2px;
+            bottom: -2px;
+        }
+    </style>
 
 </head>
 <body>
-    <a href="{{ url_for('profile') }}"><img src="{{ url_for('static', filename='img/YELLOWPERSON.png') }}" alt="Icon" class="settings"></a>
+    <a href="{{ url_for('profile') }}"><div class="profile-button">
+        <div class="cir"></div>
+        <div class="rec"></div>
+        <div class="username">Profile Settings</div>
+        <div class="block2"></div>
+        <div class="clip"><div class="circlee"></div></div>
+        <div class="block"></div>
+        <div class="pfp-container"><img src="{{ url_for('static', filename='img/settingslogo3.png') }}" alt="Icon" class="settings"></div>
+        <div class="hard"></div>
+    </div></a>
 </body>
 </html>

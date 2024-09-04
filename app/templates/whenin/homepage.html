@@ -344,9 +344,10 @@
     </style>
 </head>
 {% include 'navbar.html' %} 
+{% include 'profileButton.html'%}
     <p id="goal">GOAL: (placeholder)</p>
     <p id="progress">COUNTER: (placeholder)</p>
-    <img src="/images/jarbg.png" class="backgroundbig">
-    <img src="/images/100.png" id="jar">
+    <img src="{{ url_for('static', filename='img/jarbg.png') }}"  class="backgroundbig">
+    <img src="{{ url_for('static', filename='img/100.png') }}"  id="jar">
 </body>
 </html>

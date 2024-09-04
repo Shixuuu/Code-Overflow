@@ -117,3 +117,98 @@ def loaning(user_id):
     else:
         return "User not found", 404
 
+<<<<<<< Updated upstream
+=======
+
+@app.route('/friend_requests')
+def friend_requests():
+    current_user_id = session.get('user_id')
+    if current_user_id:
+        friend_requests = FriendRequest.query.filter_by(receiver_id=current_user_id).all()
+        return render_template('whenin/friendReq.html', friend_requests=friend_requests)
+    return redirect(url_for('login'))
+
+
+@app.route('/add_friend/<int:user_id>', methods=['POST'])
+def add_friend(user_id):
+    current_user_id = session.get('user_id')
+    if current_user_id:
+        user = User.query.get(user_id)
+        if user:
+            # Check if a friend request already exists
+            existing_request = FriendRequest.query.filter_by(sender_id=current_user_id, receiver_id=user.id).first()
+            if not existing_request:
+                # Create a new friend request
+                new_request = FriendRequest(sender_id=current_user_id, receiver_id=user.id)
+                db.session.add(new_request)
+                db.session.commit()
+                flash('Friend request sent!', 'success')
+            else:
+                flash('Friend request already sent.', 'info')
+        else:
+            flash('User does not exist.', 'danger')
+    return redirect(url_for('search_and_send_request'))
+
+@app.route('/accept_friend_request/<int:request_id>', methods=['POST'])
+def accept_friend_request(request_id):
+    friend_request = FriendRequest.query.get(request_id)
+    if friend_request:
+        new_friend = Friend(user_id=friend_request.receiver_id, friend_id=friend_request.sender_id, friend_name=friend_request.sender.username, friend_image=friend_request.sender.profile_image)
+        db.session.add(new_friend)
+        db.session.delete(friend_request)
+        db.session.commit()
+        flash('Friend request accepted!', 'success')
+    return redirect(url_for('friend_requests'))
+
+@app.route('/decline_friend_request/<int:request_id>', methods=['POST'])
+def decline_friend_request(request_id):
+    friend_request = FriendRequest.query.get(request_id)
+    if friend_request:
+        db.session.delete(friend_request)
+        db.session.commit()
+        flash('Friend request declined!', 'success')
+    return redirect(url_for('friend_requests'))
+# app/routes.py
+@app.route('/search_friends', methods=['POST'])
+def search_friends():
+    query = request.form.get('q')
+    if query:
+        users = User.query.filter(User.username.contains(query)).all()
+        return render_template('whenin/social.html', users=users)
+    return redirect(url_for('social'))
+@app.route('/search_and_send_request', methods=['POST'])
+def search_and_send_request():
+    query = request.form.get('q')
+    current_user_id = session.get('user_id')
+    response = {}
+
+    if query and current_user_id:
+        user = User.query.filter(User.username.contains(query)).first()
+        if user:
+            # Check if a friend request already exists
+            existing_request = FriendRequest.query.filter_by(sender_id=current_user_id, receiver_id=user.id).first()
+            if not existing_request:
+                # Create a new friend request
+                new_request = FriendRequest(sender_id=current_user_id, receiver_id=user.id)
+                db.session.add(new_request)
+                db.session.commit()
+                response['message'] = 'Friend request sent!'
+                response['status'] = 'success'
+            else:
+                response['message'] = 'Friend request already sent.'
+                response['status'] = 'info'
+        else:
+            response['message'] = 'User does not exist.'
+            response['status'] = 'danger'
+    else:
+        response['message'] = 'Invalid query.'
+        response['status'] = 'danger'
+
+    return jsonify(response)
+
+
+@app.route('/profile')
+def profile():
+    user_id = session.get('user_id')
+    return render_template('profile.html', user_id=user_id)
+>>>>>>> Stashed changes
