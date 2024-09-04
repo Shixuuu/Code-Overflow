@@ -3,47 +3,46 @@
 
 <div id="bg" style="display:flex;align-items: center;justify-content: center;flex-direction: column;padding-bottom:80px">
     <div style="width: 75%;background:#e2e2e2;display: flex;flex-direction: row;margin-top:100px">
-        <form style="width:60%" method="post" action="{{ url_for('search_and_send_request') }}">
-            <input style="margin:4%;margin-right:0;padding:15px 200px;font-size:120%;text-align: center;border:0;background:#ffcc59;outline:none;" type="search" id="searchbar" name="q" placeholder="Search users">
-            <button type="submit"><img src="{{ url_for('static', filename='img/search.png') }}"></button>
-        </form>
 
-        <div style="width: 20%;">
-            <div id="addFriendButton" style="height:75px;width:150px;display: flex;align-items: center;justify-content: center;margin-top: 10%;margin-bottom: 10%;">
-                <a href="#" style="text-decoration: none; color: inherit;">
-                    <div style="display:block;text-align: center;font-size: 120%;">
+        <div>
+            <div class="button">
+                <a href="#" >
+                    <div  id="addFriendButton">
                         Add Friend
                     </div>
                 </a>
             </div>
-            <div id="friendRequestButton" style="height:75px;width:150px;display: flex;align-items: center;justify-content: center;margin-top: 10%;margin-bottom: 10%;">
-                <a href="#" style="text-decoration: none; color: inherit;">
-                    <div style="display:block;text-align: center;font-size: 120%;">
+            <div class="button">
+                <a href="#">
+                    <div id="friendRequestButton">
                         Friend Requests
                     </div>
                 </a>
             </div>
         </div>
     </div>
-    <div style="width:75%;background:#e2e2e2;display:flex;justify-content:center">
-        <div id="friendsList" style="width:90%;display:flex;flex-direction: column;align-items: flex-start;overflow:auto;height:400px">
-            <table id="friendtable">
-                {% for friend in friends %}
-                <tr>
-                    <td>
-                        <div style='display:flex;flex-direction: row;justify-content: space-between'>
-                            <div style="display:flex;flex-direction: row;align-items: center;">
-                                <img src="{{ friend.friend_image }}" id="img">
-                                <span id="tablename">{{ friend.friend_name }}</span>
-                            </div>
-                            <div style="padding:15px 30px;text-decoration: underline;font-weight: bold;background-color: #ffa800;border-radius: 15px;font-size: 175%;">${{ friend.user.money }}</div>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-    </div>
+    
+    <h1>Friends</h1>
+    <table id="friendtable">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Money</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for friend in friends %}
+            <tr>
+                <td><img src="{{ friend.friend_image }}" id="img"></td>
+                <td>{{ friend.friend_name }}</td>
+                <td>${{ friend.friend_money }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
 </div>
 
 <!-- Add Friend Modal Structure -->

@@ -3,25 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
-    <div id="bg" data-sector="{{user.sector}}"></div>
+    <title>Investment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <div id="bg" data-sector="{{ user.sector }}"></div>
 </head>
 <body>
-    {% include 'navbar.html'%}
-
+    {% include 'navbar.html' %}
     <img src="{{ url_for('static', filename='img/lose.png') }}" class="backgroundbig">
     <img src="{{ url_for('static', filename='img/up.png') }}" id="up">
     <img src="{{ url_for('static', filename='img/lose1.png') }}" class="stock_image" id="stock1">
-    <img src="{{ url_for('static', filename='img/lose2.png') }}"class="stock_image" id="stock2">
+    <img src="{{ url_for('static', filename='img/lose2.png') }}" class="stock_image" id="stock2">
     <img src="{{ url_for('static', filename='img/lose3.png') }}" class="stock_image" id="stock3">
     <img src="{{ url_for('static', filename='img/lose4.png') }}" class="stock_image" id="stock4">
-    <img src="{{ url_for('static', filename='img/lose5.png') }}"class="stock_image" id="stock5">
+    <img src="{{ url_for('static', filename='img/lose5.png') }}" class="stock_image" id="stock5">
     <button class="stock_button" id="stock_button1">stock1</button>
     <button class="stock_button" id="stock_button2">stock2</button>
     <button class="stock_button" id="stock_button3">stock3</button>
     <button class="stock_button" id="stock_button4">stock4</button>
     <button class="stock_button" id="stock_button5">stock5</button>
-<script src="{{url_for('static',filename='scripts/background.js')}}"></script>
+
+
+
+    <script src="{{ url_for('static', filename='scripts/background.js') }}"></script>
+
 </body>
 </html>

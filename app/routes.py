@@ -48,16 +48,16 @@ def signup():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        user = User.query.filter_by(username=username).first()
-        if user and user.check_password(password):
-            session['user_id'] = user.id
-            flash('Login successful!', 'success')
-            return redirect(url_for('homepage'))
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and user.check_password(form.password.data):
+            session['user_id'] = user.id  # Store user_id in session
+            if user.first_login:
+                return redirect(url_for('personalized_questions', user_id=user.id))
+            else:
+                return redirect(url_for('homepage'))
         else:
-            flash('Invalid username or password', 'loginerror')
+            flash('Invalid username or password.', 'loginerror')
     return render_template('signinpage.html', form=form)
 @app.route('/personalized_questions/<int:user_id>', methods=['GET', 'POST'])
 def personalized_questions(user_id):
@@ -70,6 +70,7 @@ def personalized_questions(user_id):
             db.session.commit()
         return redirect(url_for('homepage'))
     return render_template('whenin/personalized_questions.html', user=user)
+
 
 @app.route('/friends/<int:user_id>')
 def friends(user_id):
@@ -90,15 +91,21 @@ def homepage():
     user_id = session.get('user_id')
     return render_template('whenin/homepage.html', user_id=user_id)
 
-@app.route('/investment')
+@app.route('/investment', methods=['GET', 'POST'])
 def investment():
     user_id = session.get('user_id')
     if user_id:
         user = User.query.get(user_id)
+        if request.method == 'POST':
+            sector = request.form.get('sector')
+            # Process the sector data as needed
+            flash('Sector preference saved!', 'success')
+        if 'first_investment_visit' not in session:
+            session['first_investment_visit'] = True
+            flash('Welcome to the investment page!', 'firstvisit')
         return render_template('whenin/investment.html', user=user, user_id=user_id)
     else:
         return redirect(url_for('login'))
-
 @app.route('/insurance')
 def insurance():
     user_id = session.get('user_id')
@@ -108,12 +115,25 @@ def insurance():
 def social():
     user_id = session.get('user_id')
     friend_requests = []
+    friends = []
     if user_id:
         # Retrieve friend requests where receiver_id matches the current user's ID
         friend_requests = FriendRequest.query.filter_by(receiver_id=user_id).all()
         friend_requests = [request.to_dict() for request in friend_requests]
-        print(f"User ID: {user_id}, Friend Requests: {friend_requests}")  # Debug print
-    return render_template('whenin/social.html', user_id=user_id, friend_requests=friend_requests)
+
+        # Retrieve friends where user_id matches the current user's ID
+        friends = Friend.query.filter_by(user_id=user_id).all()
+        friends = [{
+            'id': friend.id,
+            'user_id': friend.user_id,
+            'friend_id': friend.friend_id,
+            'friend_name': friend.friend_name,
+            # 'friend_image': friend.friend_image,
+            # 'friend_money': User.query.get(friend.friend_id).money  # Assuming 'money' is a field in User model
+        } for friend in friends]
+
+    return render_template('whenin/social.html', user_id=user_id, friend_requests=friend_requests, friends=friends)
+
 @app.route('/loaning/<int:user_id>')
 def loaning(user_id):
     user = User.query.get(user_id)
@@ -157,12 +177,29 @@ def add_friend(user_id):
 def accept_friend_request(request_id):
     friend_request = FriendRequest.query.get(request_id)
     if friend_request:
-        new_friend = Friend(user_id=friend_request.receiver_id, friend_id=friend_request.sender_id, friend_name=friend_request.sender.username, friend_image=friend_request.sender.profile_image)
-        db.session.add(new_friend)
+        # Create a friendship entry for the receiver
+        new_friend_receiver = Friend(
+            user_id=friend_request.receiver_id,
+            friend_id=friend_request.sender_id,
+            friend_name=friend_request.sender.username,
+            # friend_image=friend_request.sender.profile_image  # Assuming profile_image is a field in User model
+        )
+        db.session.add(new_friend_receiver)
+
+        # Create a friendship entry for the sender
+        new_friend_sender = Friend(
+            user_id=friend_request.sender_id,
+            friend_id=friend_request.receiver_id,
+            friend_name=friend_request.receiver.username,
+            # friend_image=friend_request.receiver.profile_image  # Assuming profile_image is a field in User model
+        )
+        db.session.add(new_friend_sender)
+
+        # Delete the friend request
         db.session.delete(friend_request)
         db.session.commit()
         flash('Friend request accepted!', 'success')
-    return redirect(url_for('friend_requests'))
+    return redirect(url_for('social'))
 
 @app.route('/decline_friend_request/<int:request_id>', methods=['POST'])
 def decline_friend_request(request_id):
@@ -180,6 +217,7 @@ def search_friends():
         users = User.query.filter(User.username.contains(query)).all()
         return render_template('whenin/social.html', users=users)
     return redirect(url_for('social'))
+
 @app.route('/search_and_send_request', methods=['POST'])
 def search_and_send_request():
     query = request.form.get('q')
@@ -189,18 +227,30 @@ def search_and_send_request():
     if query and current_user_id:
         user = User.query.filter(User.username.contains(query)).first()
         if user:
-            # Check if a friend request already exists
-            existing_request = FriendRequest.query.filter_by(sender_id=current_user_id, receiver_id=user.id).first()
-            if not existing_request:
-                # Create a new friend request
-                new_request = FriendRequest(sender_id=current_user_id, receiver_id=user.id)
-                db.session.add(new_request)
-                db.session.commit()
-                response['message'] = 'Friend request sent!'
-                response['status'] = 'success'
-            else:
-                response['message'] = 'Friend request already sent.'
+            # Check if the users are already friends
+            existing_friendship = Friend.query.filter_by(user_id=current_user_id, friend_id=user.id).first()
+            if existing_friendship:
+                response['message'] = 'You are already friends with this user.'
                 response['status'] = 'info'
+            else:
+                # Check if a friend request already exists
+                existing_request = FriendRequest.query.filter_by(sender_id=current_user_id, receiver_id=user.id).first()
+                if existing_request:
+                    response['message'] = 'Friend request already sent.'
+                    response['status'] = 'info'
+                else:
+                    # Check if there is a pending friend request from the other user
+                    pending_request = FriendRequest.query.filter_by(sender_id=user.id, receiver_id=current_user_id).first()
+                    if pending_request:
+                        response['message'] = 'There is already a pending friend request from this user.'
+                        response['status'] = 'info'
+                    else:
+                        # Create a new friend request
+                        new_request = FriendRequest(sender_id=current_user_id, receiver_id=user.id)
+                        db.session.add(new_request)
+                        db.session.commit()
+                        response['message'] = 'Friend request sent!'
+                        response['status'] = 'success'
         else:
             response['message'] = 'User does not exist.'
             response['status'] = 'danger'
@@ -209,4 +259,3 @@ def search_and_send_request():
         response['status'] = 'danger'
 
     return jsonify(response)
-
