@@ -66,3 +66,8 @@ def loaning():
 @app.route('/social')
 def social():
     return render_template('social.html')
+
+
+@app.route('/investment')
+def investment():
+    return render_template('investment.html')

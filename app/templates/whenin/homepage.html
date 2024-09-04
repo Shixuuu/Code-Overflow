@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -321,72 +321,32 @@
             }
         }
 
-        #up {
-            margin-left: 32.55vw;
-            width: 34vw;
-            margin-top: 80.93vh;
+        #jar {
+            height: 78vh;
+            margin-top: 20vh;
+            margin-left: 54.5vh;
             position: absolute;
+            top: 0;
         }
 
-        .stock_image {
-            width: 50vw;
-            position: absolute;
-            margin-left: 20vw;
+        #goal {
+            margin-top: 20vh;
+            margin-left: 4vw;
+            font-size: 40px;
+        }
+        
+        
+        #progress {
             margin-top: 10vh;
-        }
-
-        .stock_button {
-            border-style: none;
-            position: absolute;
-            padding: 10px;
-            position: absolute;
-            padding-top: 30px;
-            padding-bottom: 30px;
-        }
-
-        #stock_button1{
-            margin-left: 70vw;
-            margin-top: 15vh;
-        }
-        
-
-        #stock_button2{
-            margin-left: 70vw;
-            margin-top: 28vh;
-        }
-        
-
-        #stock_button3{
-            margin-left: 70vw;
-            margin-top: 40vh;
-        }
-        
-        #stock_button4{
-            margin-left: 70vw;
-            margin-top: 53vh;
-        }
-
-        #stock_button5{
-            margin-left: 70vw;
-            margin-top: 65vh;
+            margin-left: 4vw;
+            font-size: 40px;
         }
     </style>
 </head>
-<body>
-    {% include 'navbar.html'%}
-
-    <img src="{{ url_for('static', filename='img/lose.png') }}" class="backgroundbig">
-    <img src="{{ url_for('static', filename='img/up.png') }}" id="up">
-    <img src="{{ url_for('static', filename='img/lose1.png') }}" class="stock_image" id="stock1">
-    <img src="{{ url_for('static', filename='img/lose2.png') }}"class="stock_image" id="stock2">
-    <img src="{{ url_for('static', filename='img/lose3.png') }}" class="stock_image" id="stock3">
-    <img src="{{ url_for('static', filename='img/lose4.png') }}" class="stock_image" id="stock4">
-    <img src="{{ url_for('static', filename='img/lose5.png') }}"class="stock_image" id="stock5">
-    <button class="stock_button" id="stock_button1">stock1</button>
-    <button class="stock_button" id="stock_button2">stock2</button>
-    <button class="stock_button" id="stock_button3">stock3</button>
-    <button class="stock_button" id="stock_button4">stock4</button>
-    <button class="stock_button" id="stock_button5">stock5</button>
-
+{% include 'navbar.html' %} 
+    <p id="goal">GOAL: (placeholder)</p>
+    <p id="progress">COUNTER: (placeholder)</p>
+    <img src="/images/jarbg.png" class="backgroundbig">
+    <img src="/images/100.png" id="jar">
 </body>
 </html>
