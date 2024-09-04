@@ -47,6 +47,7 @@ def signup():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    form = LoginForm()
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -54,10 +55,10 @@ def login():
         if user and user.check_password(password):
             session['user_id'] = user.id
             flash('Login successful!', 'success')
-            return redirect(url_for('social'))
+            return redirect(url_for('homepage'))
         else:
             flash('Invalid username or password', 'loginerror')
-    return render_template('login.html')
+    return render_template('signinpage.html', form=form)
 @app.route('/personalized_questions/<int:user_id>', methods=['GET', 'POST'])
 def personalized_questions(user_id):
     user = User.query.get(user_id)
