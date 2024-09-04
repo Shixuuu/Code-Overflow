@@ -3,6 +3,10 @@
   padding: 0;
   box-sizing: border-box;
 }
+body{
+  margin: 0;
+  padding: 0;
+}
 #bg {
   width: 100%;
   height: 110vh; /* Full viewport height */
@@ -13,6 +17,8 @@
   left: 0;
 }
 .navbar {
+  margin: 0;
+  padding: 0;
   display: flex;
   position: absolute;
   justify-content: space-around;
@@ -384,4 +390,191 @@ color: #EF3B3A;
   transition:ease-in-out 0.2s;
   box-shadow: 0px 5px 5px black;
   
+}
+#hexbutton{
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  background: #ffa800;
+}
+#img{
+  height:65px;width:65px;
+}
+#tablename{
+  font-size:170%;
+  margin-left:30px
+}
+#friendtable{
+  border-color: transparent;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 100%;
+  padding: 5px;
+  background: #cfcfcf;
+  border-radius: 7px;
+}
+#bg{
+  background-image: url(default_bg.png);
+}
+#search{
+  width:45px;height:45px;margin-bottom:-15px
+}
+#search:hover{
+  cursor: url(searchcursor.png)
+}
+
+.insuranceimage{
+  position: absolute;
+  top:20vh;
+  width:90vw;
+  height:80vh;
+  left:5vw;
+
+}
+
+
+.background{
+  display:block;
+  z-index: -1;
+  position:absolute;
+  top:0;
+  width:100vw;
+  height:100vh;
+}
+
+.insurance_button {
+position: absolute;
+border-style: none;
+padding: 15px;
+padding-left: 20px;
+padding-right: 20px;
+background-color: #ffde59;
+font-size: 15px;
+clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+#button1 {
+
+margin-top: 71vh;
+margin-left: 17.5vw;
+}
+
+#button2 {
+margin-top: 47vh;
+margin-left: 37.5vw;
+}
+
+#button3 {
+margin-top: 71vh;
+margin-left: 58vw;
+}
+
+#button4 {
+margin-top: 45vh;
+margin-left: 78.5vw;
+}
+        
+#insuranceimages {
+  margin-top: 21vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+}
+
+
+
+#up {
+  margin-left: 32.55vw;
+  width: 34vw;
+  margin-top: 80.93vh;
+  position: absolute;
+}
+
+.stock_image {
+  width: 50vw;
+  position: absolute;
+  margin-left: 20vw;
+  margin-top: 10vh;
+}
+
+.stock_button {
+  border-style: none;
+  position: absolute;
+  padding: 10px;
+  position: absolute;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+#stock_button1{
+  margin-left: 70vw;
+  margin-top: 15vh;
+}
+
+
+#stock_button2{
+  margin-left: 70vw;
+  margin-top: 28vh;
+}
+
+
+#stock_button3{
+  margin-left: 70vw;
+  margin-top: 40vh;
+}
+
+#stock_button4{
+  margin-left: 70vw;
+  margin-top: 53vh;
+}
+
+#stock_button5{
+  margin-left: 70vw;
+  margin-top: 65vh;
+}
+#jar {
+  height: 78vh;
+  margin-top: 20vh;
+  margin-left: 54.5vh;
+  position: absolute;
+  top: 0;
+}
+
+#goal {
+  margin-top: 20vh;
+  margin-left: 4vw;
+  font-size: 40px;
+}
+
+
+#progress {
+  margin-top: 10vh;
+  margin-left: 4vw;
+  font-size: 40px;
+}
+#poly{
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); 
+}
+#img{
+  height: 40px;
+  width: 40px
+}
+#tablename{
+  font-size:150%;
+  margin-left:15px
+}
+td{
+  height: 40px;
+}
+#loantable{
+  border-color: transparent;margin-top:3px;margin-bottom:3px; 
+  width:100%;padding:5px;background: #ffcc59; border-radius: 7px;
+}
+#friendtable{
+  border-color: transparent; margin-top:5px;margin-bottom: 5px;
+  width:100%;padding:5px;background: #cfcfcf; border-radius: 7px;
+}
+#bg{
+  background-image: url(default_bg.png);
+}
+div{
+  font-family: silkscreen, Arial, Helvetica, sans-serif;
 }

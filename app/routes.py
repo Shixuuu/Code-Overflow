@@ -1,6 +1,6 @@
 from app import app
-from flask import render_template, request, redirect, url_for,flash,session
-from app.models import User, Friend, db
+from flask import render_template, request, redirect, url_for,flash,session ,jsonify
+from app.models import User, Friend, FriendRequest, db
 from app.form import RegistrationForm, LoginForm
 
 
@@ -47,18 +47,17 @@ def signup():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user and user.check_password(form.password.data):
-            session['user_id'] = user.id  # Store user_id in session
-            if user.first_login:
-                return redirect(url_for('personalized_questions', user_id=user.id))
-            else:
-                return redirect(url_for('homepage'))
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user = User.query.filter_by(username=username).first()
+        if user and user.check_password(password):
+            session['user_id'] = user.id
+            flash('Login successful!', 'success')
+            return redirect(url_for('social'))
         else:
-            flash('Invalid username or password.', 'loginerror')
-    return render_template('signinpage.html', form=form)
+            flash('Invalid username or password', 'loginerror')
+    return render_template('login.html')
 @app.route('/personalized_questions/<int:user_id>', methods=['GET', 'POST'])
 def personalized_questions(user_id):
     user = User.query.get(user_id)
@@ -107,7 +106,13 @@ def insurance():
 @app.route('/social')
 def social():
     user_id = session.get('user_id')
-    return render_template('whenin/social.html', user_id=user_id)
+    friend_requests = []
+    if user_id:
+        # Retrieve friend requests where receiver_id matches the current user's ID
+        friend_requests = FriendRequest.query.filter_by(receiver_id=user_id).all()
+        friend_requests = [request.to_dict() for request in friend_requests]
+        print(f"User ID: {user_id}, Friend Requests: {friend_requests}")  # Debug print
+    return render_template('whenin/social.html', user_id=user_id, friend_requests=friend_requests)
 @app.route('/loaning/<int:user_id>')
 def loaning(user_id):
     user = User.query.get(user_id)
@@ -116,4 +121,91 @@ def loaning(user_id):
         return render_template('whenin/loaning.html', user=user, friends=friends, user_id=user_id)
     else:
         return "User not found", 404
+
+
+@app.route('/friend_requests')
+def friend_requests():
+    current_user_id = session.get('user_id')
+    if current_user_id:
+        friend_requests = FriendRequest.query.filter_by(receiver_id=current_user_id).all()
+        return render_template('whenin/friendReq.html', friend_requests=friend_requests)
+    return redirect(url_for('login'))
+
+
+@app.route('/add_friend/<int:user_id>', methods=['POST'])
+def add_friend(user_id):
+    current_user_id = session.get('user_id')
+    if current_user_id:
+        user = User.query.get(user_id)
+        if user:
+            # Check if a friend request already exists
+            existing_request = FriendRequest.query.filter_by(sender_id=current_user_id, receiver_id=user.id).first()
+            if not existing_request:
+                # Create a new friend request
+                new_request = FriendRequest(sender_id=current_user_id, receiver_id=user.id)
+                db.session.add(new_request)
+                db.session.commit()
+                flash('Friend request sent!', 'success')
+            else:
+                flash('Friend request already sent.', 'info')
+        else:
+            flash('User does not exist.', 'danger')
+    return redirect(url_for('search_and_send_request'))
+
+@app.route('/accept_friend_request/<int:request_id>', methods=['POST'])
+def accept_friend_request(request_id):
+    friend_request = FriendRequest.query.get(request_id)
+    if friend_request:
+        new_friend = Friend(user_id=friend_request.receiver_id, friend_id=friend_request.sender_id, friend_name=friend_request.sender.username, friend_image=friend_request.sender.profile_image)
+        db.session.add(new_friend)
+        db.session.delete(friend_request)
+        db.session.commit()
+        flash('Friend request accepted!', 'success')
+    return redirect(url_for('friend_requests'))
+
+@app.route('/decline_friend_request/<int:request_id>', methods=['POST'])
+def decline_friend_request(request_id):
+    friend_request = FriendRequest.query.get(request_id)
+    if friend_request:
+        db.session.delete(friend_request)
+        db.session.commit()
+        flash('Friend request declined!', 'success')
+    return redirect(url_for('friend_requests'))
+# app/routes.py
+@app.route('/search_friends', methods=['POST'])
+def search_friends():
+    query = request.form.get('q')
+    if query:
+        users = User.query.filter(User.username.contains(query)).all()
+        return render_template('whenin/social.html', users=users)
+    return redirect(url_for('social'))
+@app.route('/search_and_send_request', methods=['POST'])
+def search_and_send_request():
+    query = request.form.get('q')
+    current_user_id = session.get('user_id')
+    response = {}
+
+    if query and current_user_id:
+        user = User.query.filter(User.username.contains(query)).first()
+        if user:
+            # Check if a friend request already exists
+            existing_request = FriendRequest.query.filter_by(sender_id=current_user_id, receiver_id=user.id).first()
+            if not existing_request:
+                # Create a new friend request
+                new_request = FriendRequest(sender_id=current_user_id, receiver_id=user.id)
+                db.session.add(new_request)
+                db.session.commit()
+                response['message'] = 'Friend request sent!'
+                response['status'] = 'success'
+            else:
+                response['message'] = 'Friend request already sent.'
+                response['status'] = 'info'
+        else:
+            response['message'] = 'User does not exist.'
+            response['status'] = 'danger'
+    else:
+        response['message'] = 'Invalid query.'
+        response['status'] = 'danger'
+
+    return jsonify(response)
 

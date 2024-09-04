@@ -29,3 +29,22 @@ class Friend(db.Model):
 
     def __repr__(self):
         return f'<Friend {self.friend_name}>'
+
+class FriendRequest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    timestamp = db.Column(db.DateTime, default=db.func.current_timestamp())
+
+    sender = db.relationship('User', foreign_keys=[sender_id], backref='sent_requests')
+    receiver = db.relationship('User', foreign_keys=[receiver_id], backref='received_requests')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'sender_id': self.sender_id,
+            'receiver_id': self.receiver_id,
+            'sender_username': self.sender.username,
+            'receiver_username': self.receiver.username,
+            # Add other fields as necessary
+        }

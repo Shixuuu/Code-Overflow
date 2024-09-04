@@ -1,65 +1,145 @@
-<!DOCTYPE html>
-<html>
-<style>
-#hexbutton{
-    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-    background: #ffa800;
-}
-#img{
-    height:65px;width:65px;
-}
-#tablename{
-    font-size:170%;
-    margin-left:30px
-}
-#friendtable{
-    border-color: transparent; margin-top:7px;margin-bottom: 7px;
-    width:100%;padding:7px;background: #cfcfcf; border-radius: 7px;
-}
-#bg{
-    background-image: url(default_bg.png);
-}
-#search{
-    width:45px;height:45px;margin-bottom:-15px
-}
-#search:hover{
-    cursor: url(searchcursor.png)
-}
-</style>
-{% include 'navbar.html'%}
+{% include 'navbar.html' %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+
 <div id="bg" style="display:flex;align-items: center;justify-content: center;flex-direction: column;padding-bottom:80px">
     <div style="width: 75%;background:#e2e2e2;display: flex;flex-direction: row;margin-top:100px">
-        <form style="width:80%">
-            <input style="margin:4%;margin-right:0;padding:15px 200px;font-size:120%;text-align: center;border:0;background:#ffcc59;outline:none;" type="search" id="searchbar" name="q" placeholder="Search bar">
-            <img src="search.png">
+        <form style="width:60%" method="post" action="{{ url_for('search_and_send_request') }}">
+            <input style="margin:4%;margin-right:0;padding:15px 200px;font-size:120%;text-align: center;border:0;background:#ffcc59;outline:none;" type="search" id="searchbar" name="q" placeholder="Search users">
+            <button type="submit"><img src="{{ url_for('static', filename='img/search.png') }}"></button>
         </form>
+
         <div style="width: 20%;">
-            <div id="hexbutton" style="height:75px;width:150px;display: flex;align-items: center;justify-content: center;margin-top: 10%;margin-bottom: 10%;">
-                <div style="display:block;text-align: center;font-size: 120%;">
-                    Add Friend
-                </div>
+            <div id="addFriendButton" style="height:75px;width:150px;display: flex;align-items: center;justify-content: center;margin-top: 10%;margin-bottom: 10%;">
+                <a href="#" style="text-decoration: none; color: inherit;">
+                    <div style="display:block;text-align: center;font-size: 120%;">
+                        Add Friend
+                    </div>
+                </a>
+            </div>
+            <div id="friendRequestButton" style="height:75px;width:150px;display: flex;align-items: center;justify-content: center;margin-top: 10%;margin-bottom: 10%;">
+                <a href="#" style="text-decoration: none; color: inherit;">
+                    <div style="display:block;text-align: center;font-size: 120%;">
+                        Friend Requests
+                    </div>
+                </a>
             </div>
         </div>
     </div>
     <div style="width:75%;background:#e2e2e2;display:flex;justify-content:center">
-        <div id="add friends here" style="width:90%;display:flex;flex-direction: column;align-items: flex-start;overflow:auto;height:400px">
-            <table id="friendtable"><tr><td><div style='display:flex;flex-direction: row;justify-content: space-between'><div style="display:flex;flex-direction: row;align-items: center;"><img src="pack.png" id="img"><span id="tablename">name</span></div><div style="padding:15px 30px;text-decoration: underline;font-weight: bold;background-color: #ffa800;border-radius: 15px;font-size: 175%;">$4444</div></div></td></tr></table>
-        </div>
-        <div id="no friends" style="margin-left:auto;margin-right:auto;font-size:150%;display:none;margin-top:15px">
-            No friends
+        <div id="friendsList" style="width:90%;display:flex;flex-direction: column;align-items: flex-start;overflow:auto;height:400px">
+            <table id="friendtable">
+                {% for friend in friends %}
+                <tr>
+                    <td>
+                        <div style='display:flex;flex-direction: row;justify-content: space-between'>
+                            <div style="display:flex;flex-direction: row;align-items: center;">
+                                <img src="{{ friend.friend_image }}" id="img">
+                                <span id="tablename">{{ friend.friend_name }}</span>
+                            </div>
+                            <div style="padding:15px 30px;text-decoration: underline;font-weight: bold;background-color: #ffa800;border-radius: 15px;font-size: 175%;">${{ friend.user.money }}</div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
     </div>
 </div>
+
+<!-- Add Friend Modal Structure -->
+<div id="addFriendModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="modal-body">
+            {% include 'whenin/addFriends.html' %}
+        </div>
+    </div>
+</div>
+
+<!-- Friend Request Modal Structure -->
+<div id="friendRequestModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="modal-body">
+            {% include 'whenin/friendReq.html' %}
+        </div>
+    </div>
+</div>
+
+<!-- Modal Styles -->
+<style>
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+</style>
+
+
 <script>
-var friendlist = [['bee1.png','name',2763],['bee1.png','name',2763],['bee1.png','name',2763],['bee1.png','name',2763]]; //pull all friend and convert to a list
-//eg. friendlist = [['bee1.png','name',2763]]
-if (friendlist.length == 0){
-    document.getElementById("no friends").style.display = 'block';
-}
-else{
-    for (i=0;i<friendlist.length;i++){
-        document.getElementById("add friends here").innerHTML += `<table id="friendtable"><tr><td><div style='display:flex;flex-direction: row;justify-content: space-between'><div style="display:flex;flex-direction: row;align-items: center;"><img src="${friendlist[i][0]}" id="img"><span id="tablename">${friendlist[i][1]}</span></div><div style="padding:15px 30px;text-decoration: underline;font-weight: bold;background-color: #ffa800;border-radius: 15px;font-size: 175%;">$${friendlist[i][2]}</div></div></td></tr></table>`
-    }
-}
-</script>
-</html>
+    document.addEventListener('DOMContentLoaded', function() {
+        var addFriendModal = document.getElementById("addFriendModal");
+        var friendRequestModal = document.getElementById("friendRequestModal");
+        var closeButtons = document.getElementsByClassName("close");
+    
+        // When the user clicks on <span> (x), close the modal
+        for (var i = 0; i < closeButtons.length; i++) {
+            closeButtons[i].onclick = function() {
+                addFriendModal.style.display = "none";
+                friendRequestModal.style.display = "none";
+            }
+        }
+    
+        // Function to show the Add Friend modal
+        function showAddFriendModal() {
+            addFriendModal.style.display = "block";
+        }
+    
+        // Function to show the Friend Request modal
+        function showFriendRequestModal() {
+            friendRequestModal.style.display = "block";
+        }
+    
+        // Add event listener to the "Add Friend" button
+        document.getElementById("addFriendButton").addEventListener("click", function(event) {
+            event.preventDefault();
+            showAddFriendModal();
+        });
+    
+        // Add event listener to the "Friend Request" button
+        document.getElementById("friendRequestButton").addEventListener("click", function(event) {
+            event.preventDefault();
+            showFriendRequestModal();
+        });
+    
+    });
+    </script>
