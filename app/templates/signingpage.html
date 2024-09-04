@@ -7,11 +7,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
 </head>
 <body>
-    <img src="{{ url_for('static', filename='img/WhatsApp Image 2024-09-02 at 2.44.53 PM.jpeg') }}" class="backgroundbig">
-    <img src="{{ url_for('static', filename='img/WhatsApp Image 2024-09-02 at 4.04.39 PM.jpeg') }}" class="backgroundsmall">
+  <img src="static/img/WhatsApp Image 2024-09-02 at 2.44.53 PM.jpeg" class="backgroundbig">
+  <img src="static/img/WhatsApp Image 2024-09-02 at 4.04.39 PM.jpeg" class="backgroundsmall">
     <div class="login-page">
         <div class="form-container">
             {% if form_type == 'signup' %}
@@ -22,5 +22,6 @@
         </div>
     </div>
     {% include 'popup.html' %}
+
 </body>
 </html>

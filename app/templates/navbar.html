@@ -3,35 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <title>Document</title>
 </head>
 <body>
     <div class="navbar">
-        <div class="navbar-item {% if request.path == url_for('loaning', user_id=user_id) %}active{% endif %}">
-            <a href="{{ url_for('loaning', user_id=user_id) }}"><img src="{{ url_for('static', filename='img/loaning-icon.png') }}" alt="Loaning">
+        <div class="navbar-item">
+            <a href="{{ url_for('loaning') }}"><img src="static/img/loaning-icon.png" alt="Loaning">
             <span>Loaning</span></a>
         </div>
         <div class="separator"></div>
-        <div class="navbar-item {% if request.path == url_for('investment') %}active{% endif %}">
-            <a href="{{ url_for('investment') }}"><img src="{{ url_for('static', filename='img/investment-icon.png') }}" alt="Investment">
+        <div class="navbar-item">
+            <a href="{{ url_for('investment') }}"><img src="static/img/investment-icon.png" alt="Investment">
             <span>Investment</span></a>
         </div>
         <div class="separator"></div>
-        <div class="navbar-item {% if request.path == url_for('homepage') %}active{% endif %}">
-            <a href="{{ url_for('homepage') }}"><img src="{{ url_for('static', filename='img/honeyjar-icon.png') }}" alt="Honey jar">
-            <span>Honey Jar</span></a>
+        <div class="navbar-item active">
+            <img src="static/img/honeyjar-icon.png" alt="Honey jar"> <!--a href honeyjar.html-->
+            <span>Honey Jar</span>
         </div>
         <div class="separator"></div>
-        <div class="navbar-item {% if request.path == url_for('insurance') %}active{% endif %}">
-            <a href="{{ url_for('insurance') }}"><img src="{{ url_for('static', filename='img/insurance-icon.png') }}" alt="Insurance">
+        <div class="navbar-item">
+            <a href="{{ url_for('insurance') }}"><img src="static/img/insurance-icon.png" alt="Insurance">
             <span>Insurance</span></a>
         </div>
         <div class="separator"></div>
-        <div class="navbar-item {% if request.path == url_for('social') %}active{% endif %}">
-            <a href="{{ url_for('social') }}"><img src="{{ url_for('static', filename='img/social-icon.png') }}" alt="Social">
+        <div class="navbar-item">
+            <a href="{{ url_for('social') }}"><img src="static/img/social-icon.png" alt="Social">
             <span>Social</span></a>
         </div>
     </div>
 </body>
+
 </html>
+
+
