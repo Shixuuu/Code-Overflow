@@ -129,7 +129,7 @@ def social():
             'friend_id': friend.friend_id,
             'friend_name': friend.friend_name,
             # 'friend_image': friend.friend_image,
-            # 'friend_money': User.query.get(friend.friend_id).money  # Assuming 'money' is a field in User model
+            'friend_money': User.query.get(friend.friend_id).money  # Assuming 'money' is a field in User model
         } for friend in friends]
 
     return render_template('whenin/social.html', user_id=user_id, friend_requests=friend_requests, friends=friends)
@@ -227,30 +227,34 @@ def search_and_send_request():
     if query and current_user_id:
         user = User.query.filter(User.username.contains(query)).first()
         if user:
-            # Check if the users are already friends
-            existing_friendship = Friend.query.filter_by(user_id=current_user_id, friend_id=user.id).first()
-            if existing_friendship:
-                response['message'] = 'You are already friends with this user.'
-                response['status'] = 'info'
+            if user.id == current_user_id:
+                response['message'] = 'You cannot send a friend request to yourself.'
+                response['status'] = 'danger'
             else:
-                # Check if a friend request already exists
-                existing_request = FriendRequest.query.filter_by(sender_id=current_user_id, receiver_id=user.id).first()
-                if existing_request:
-                    response['message'] = 'Friend request already sent.'
+                # Check if the users are already friends
+                existing_friendship = Friend.query.filter_by(user_id=current_user_id, friend_id=user.id).first()
+                if existing_friendship:
+                    response['message'] = 'You are already friends with this user.'
                     response['status'] = 'info'
                 else:
-                    # Check if there is a pending friend request from the other user
-                    pending_request = FriendRequest.query.filter_by(sender_id=user.id, receiver_id=current_user_id).first()
-                    if pending_request:
-                        response['message'] = 'There is already a pending friend request from this user.'
+                    # Check if a friend request already exists
+                    existing_request = FriendRequest.query.filter_by(sender_id=current_user_id, receiver_id=user.id).first()
+                    if existing_request:
+                        response['message'] = 'Friend request already sent.'
                         response['status'] = 'info'
                     else:
-                        # Create a new friend request
-                        new_request = FriendRequest(sender_id=current_user_id, receiver_id=user.id)
-                        db.session.add(new_request)
-                        db.session.commit()
-                        response['message'] = 'Friend request sent!'
-                        response['status'] = 'success'
+                        # Check if there is a pending friend request from the other user
+                        pending_request = FriendRequest.query.filter_by(sender_id=user.id, receiver_id=current_user_id).first()
+                        if pending_request:
+                            response['message'] = 'There is already a pending friend request from this user.'
+                            response['status'] = 'info'
+                        else:
+                            # Create a new friend request
+                            new_request = FriendRequest(sender_id=current_user_id, receiver_id=user.id)
+                            db.session.add(new_request)
+                            db.session.commit()
+                            response['message'] = 'Friend request sent!'
+                            response['status'] = 'success'
         else:
             response['message'] = 'User does not exist.'
             response['status'] = 'danger'
