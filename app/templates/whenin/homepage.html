@@ -6,13 +6,367 @@
     <title>Document</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
     <style>
- 
+        body{
+            margin: 0;
+            padding: 0;
+            background-color: #E2E2E2;
+        }
+
+
+        .backgroundbig {
+            display:block;
+            z-index: -9;
+            position:absolute;
+            top: 0;
+            width:100vw;
+            height:100vh;
+        }
+
+        .navbar {
+            display: flex;
+            position: absolute;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #E2E2E2;
+            position: relative;
+            height: 100px;
+            z-index: 10000000;
+        }
+
+        .navbar-item {
+            text-align: center;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .navbar-item img {
+            width: 68px;
+            height: 55px;
+            display: block;
+            margin: -10px auto 3px auto;
+            transition: 0.4s;
+        }
+
+        .navbar-item:hover img {
+            width: 85px;
+            height: 70px;
+        }
+
+        .navbar-item.active img {
+            width: 85px;
+            height: 70px;
+        }
+
+        .navbar-item span {
+            font-size: medium;
+            color: #000;
+            font-weight: bold;
+            transition: 0.4s;
+        }
+
+        .navbar a {
+            text-decoration: none;
+        }
+
+        .navbar-item:hover span {
+            font-size: large;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .navbar-item.active span {
+            font-size: large;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .separator {
+            height: 60px;
+            border-left: 4px solid #FFCC59;
+        }
+
+        .navbar-item.active {
+            height: 45px;
+        }
+
+        .navbar-item.active::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 185px;
+            height: 140px;
+            background-color: #FFCC59;
+            clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+            z-index: -1;
+        }
+
+        .navbar-item.active::before {
+            content: '';
+            position: absolute;
+            top: 90%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 225px;
+            height: 180px;
+            background-color: #E2E2E2;
+            clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+            z-index: -1;
+        }
+
+        @media (max-width: 1200px) {
+            .navbar-item img {
+                width: 55px;
+                height: 45px;
+            }
+
+            .navbar-item:hover img, .navbar-item.active img {
+                width: 70px;
+                height: 58px;
+            }
+
+            .navbar-item.active::after {
+                width: 135px;
+                height: 105px;
+            }
+
+            .navbar-item.active::before {
+                width: 165px;
+                height: 140px;
+            }
+
+            .navbar-item.active {
+                height: 35px;
+            }
+
+            .navbar-item span {
+                font-size: 16px;
+            }
+
+            .navbar-item.active span {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .navbar-item img {
+                width: 50px;
+                height: 40px;
+            }
+
+            .navbar-item:hover img, .navbar-item.active img {
+                width: 65px;
+                height: 52px;
+            }
+
+            .navbar-item.active::after {
+                width: 125px;
+                height: 95px;
+            }
+
+            .navbar-item.active::before {
+                width: 155px;
+                height: 125px;
+            }
+
+            .separator {
+                height: 50px;
+                border-left-width: 3px;
+            }
+
+            .navbar-item.active {
+                height: 30px;
+            }
+
+            .navbar-item span {
+                font-size: 14px;
+            }
+
+            .navbar-item.active span {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                height: 70px;
+            }
+
+            .navbar-item img {
+                width: 45px;
+                height: 36px;
+            }
+
+            .navbar-item:hover img, .navbar-item.active img {
+                width: 60px;
+                height: 48px;
+            }
+
+            .navbar-item.active::after {
+                width: 105px;
+                height: 85px;
+            }
+
+            .navbar-item.active::before {
+                width: 135px;
+                height: 115px;
+            }
+
+            .separator {
+                height: 45px;
+                border-left-width: 2px;
+            }
+
+            .navbar-item.active {
+                height: 30px;
+            }
+
+            .navbar-item span {
+                font-size: 12px;
+            }
+
+            .navbar-item.active span {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar {
+                height: 60px;
+            }
+
+            .navbar-item img {
+                width: 40px;
+                height: 32px;
+            }
+
+            .navbar-item:hover img, .navbar-item.active img {
+                width: 40px;
+                height: 30px;
+            }
+
+            .navbar-item.active::after {
+                width: 75px;
+                height: 65px;
+            }
+
+            .navbar-item.active::before {
+                width: 90px;
+                height: 90px;
+            }
+
+            .separator {
+                height: 40px;
+                border-left-width: 2px;
+            }
+
+            .navbar-item.active {
+                height: 20px;
+            }
+
+            .navbar-item span {
+                font-size: 10px;
+            }
+
+            .navbar-item.active span {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .navbar {
+                height: 50px;
+            }
+
+            .navbar-item img {
+                width: 35px;
+                height: 28px;
+            }
+
+            .navbar-item:hover img, .navbar-item.active img {
+                width: 45px;
+                height: 35px;
+            }
+
+            .navbar-item.active::after {
+                width: 55px;
+                height: 60px;
+            }
+
+            .navbar-item.active::before {
+                width: 75px;
+                height: 75px;
+            }
+
+            .separator {
+                height: 35px;
+                border-left-width: 1.5px;
+            }
+
+            .navbar-item.active {
+                height: 25px;
+            }
+
+            .navbar-item span {
+                font-size: 8px;
+            }
+
+            .navbar-item.active span {
+                font-size: 12px;
+            }
+        }
+
+        #jar {
+            height: 78vh;
+            top: 20vh;
+            left: 60vh;
+            position: absolute;
+        }
+
+        #goal {
+            position: relative;
+            top: 20vh;
+            left: 4vw;
+            font-size: 40px;
+        }
+        
+        
+        #progress {
+            position:relative;
+            top:30vh;
+            left: 4vw;
+            font-size: 40px;
+        }
+        .frame {
+            height: 88vh;
+            border:#E2E2E2 16px solid;
+            border-top:#E2E2E2 6px solid;
+            border-radius: 7%;
+            background-color: transparent;
+            position: fixed;
+            width: calc(100vw - 32px);
+            overflow: hidden;
+        }
+
+        .hard {
+            background-color:#E2E2E2;
+            height: 100px;
+            width: 16px;
+            position: fixed;
+            bottom: 30px;
+            right: 0px;
+            z-index: 9;
+        }
+
     </style>
 </head>
 {% include 'navbar.html' %} 
+<div class="frame"><img src="{{ url_for('static', filename='img/jarbg.png') }}"  class="backgroundbig"></div>
+{% include 'profileButton.html'%}
     <p id="goal">GOAL: (placeholder)</p>
     <p id="progress">COUNTER: (placeholder)</p>
-    <img src="/images/jarbg.png" class="backgroundbig">
-    <img src="/images/100.png" id="jar">
+    <img src="{{ url_for('static', filename='img/100.png') }}"  id="jar">
 </body>
 </html>

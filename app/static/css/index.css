@@ -237,6 +237,7 @@ display:none;
 .backgroundbig{
 display:block;
 z-index: -1;
+top:0;
 position:absolute;
 width:100vw;
 height:100vh;
@@ -248,7 +249,7 @@ body {
 }
 
 
-@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
 
 .login-page{
   top:100px;
@@ -530,13 +531,7 @@ margin-left: 78.5vw;
   margin-left: 70vw;
   margin-top: 65vh;
 }
-#jar {
-  height: 78vh;
-  margin-top: 20vh;
-  margin-left: 54.5vh;
-  position: absolute;
-  top: 0;
-}
+
 
 #goal {
   margin-top: 20vh;

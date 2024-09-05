@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
 <style>
 
 </style>
 <html>
     {% include 'navbar.html'%}
+    <div class="frame"><img src="{{ url_for('static', filename='img/jarbg.png') }}"  class="backgroundbig"></div>
+
+    {% include 'profileButton.html'%}
     <div id='bg' style="display:flex;flex-direction: row;">
         <div style="width:50%;display:flex;justify-content: center;">
             <div id="poly" style="padding: 35%; margin: 10%; background: #ffa800;display:flex;justify-content: center;">

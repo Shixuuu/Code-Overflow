@@ -177,29 +177,12 @@ def add_friend(user_id):
 def accept_friend_request(request_id):
     friend_request = FriendRequest.query.get(request_id)
     if friend_request:
-        # Create a friendship entry for the receiver
-        new_friend_receiver = Friend(
-            user_id=friend_request.receiver_id,
-            friend_id=friend_request.sender_id,
-            friend_name=friend_request.sender.username,
-            # friend_image=friend_request.sender.profile_image  # Assuming profile_image is a field in User model
-        )
-        db.session.add(new_friend_receiver)
-
-        # Create a friendship entry for the sender
-        new_friend_sender = Friend(
-            user_id=friend_request.sender_id,
-            friend_id=friend_request.receiver_id,
-            friend_name=friend_request.receiver.username,
-            # friend_image=friend_request.receiver.profile_image  # Assuming profile_image is a field in User model
-        )
-        db.session.add(new_friend_sender)
-
-        # Delete the friend request
+        new_friend = Friend(user_id=friend_request.receiver_id, friend_id=friend_request.sender_id, friend_name=friend_request.sender.username, friend_image=friend_request.sender.profile_image)
+        db.session.add(new_friend)
         db.session.delete(friend_request)
         db.session.commit()
         flash('Friend request accepted!', 'success')
-    return redirect(url_for('social'))
+    return redirect(url_for('friend_requests'))
 
 @app.route('/decline_friend_request/<int:request_id>', methods=['POST'])
 def decline_friend_request(request_id):
@@ -217,7 +200,6 @@ def search_friends():
         users = User.query.filter(User.username.contains(query)).all()
         return render_template('whenin/social.html', users=users)
     return redirect(url_for('social'))
-
 @app.route('/search_and_send_request', methods=['POST'])
 def search_and_send_request():
     query = request.form.get('q')
@@ -227,34 +209,18 @@ def search_and_send_request():
     if query and current_user_id:
         user = User.query.filter(User.username.contains(query)).first()
         if user:
-            if user.id == current_user_id:
-                response['message'] = 'You cannot send a friend request to yourself.'
-                response['status'] = 'danger'
+            # Check if a friend request already exists
+            existing_request = FriendRequest.query.filter_by(sender_id=current_user_id, receiver_id=user.id).first()
+            if not existing_request:
+                # Create a new friend request
+                new_request = FriendRequest(sender_id=current_user_id, receiver_id=user.id)
+                db.session.add(new_request)
+                db.session.commit()
+                response['message'] = 'Friend request sent!'
+                response['status'] = 'success'
             else:
-                # Check if the users are already friends
-                existing_friendship = Friend.query.filter_by(user_id=current_user_id, friend_id=user.id).first()
-                if existing_friendship:
-                    response['message'] = 'You are already friends with this user.'
-                    response['status'] = 'info'
-                else:
-                    # Check if a friend request already exists
-                    existing_request = FriendRequest.query.filter_by(sender_id=current_user_id, receiver_id=user.id).first()
-                    if existing_request:
-                        response['message'] = 'Friend request already sent.'
-                        response['status'] = 'info'
-                    else:
-                        # Check if there is a pending friend request from the other user
-                        pending_request = FriendRequest.query.filter_by(sender_id=user.id, receiver_id=current_user_id).first()
-                        if pending_request:
-                            response['message'] = 'There is already a pending friend request from this user.'
-                            response['status'] = 'info'
-                        else:
-                            # Create a new friend request
-                            new_request = FriendRequest(sender_id=current_user_id, receiver_id=user.id)
-                            db.session.add(new_request)
-                            db.session.commit()
-                            response['message'] = 'Friend request sent!'
-                            response['status'] = 'success'
+                response['message'] = 'Friend request already sent.'
+                response['status'] = 'info'
         else:
             response['message'] = 'User does not exist.'
             response['status'] = 'danger'
@@ -263,3 +229,9 @@ def search_and_send_request():
         response['status'] = 'danger'
 
     return jsonify(response)
+
+
+@app.route('/profile')
+def profile():
+    user_id = session.get('user_id')
+    return render_template('profile.html', user_id=user_id)
