@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template, request, redirect, url_for,flash,session ,jsonify
-from app.models import User, Friend, FriendRequest, db
+from app.models import User, Friend, FriendRequest,db
 from app.form import RegistrationForm, LoginForm
 
 
@@ -77,7 +77,12 @@ def friends(user_id):
     user = User.query.get(user_id)
     if user:
         friends = Friend.query.filter_by(user_id=user_id).all()
-        return render_template('whenin/loaning.html', user=user, friends=friends)
+        friends_data = [{
+            'id': friend.friend_id,  # Assuming 'friend_id' corresponds to the friend's ID
+            'name': friend.friend_name,
+            'money': User.query.get(friend.friend_id).money  # Assuming 'money' is a field in User model
+        } for friend in friends]
+        return render_template('whenin/loaning.html', user=user,  friends=friends_data, user_id=user_id)
     else:
         return "User not found", 404
 
@@ -139,10 +144,14 @@ def loaning(user_id):
     user = User.query.get(user_id)
     if user:
         friends = Friend.query.filter_by(user_id=user_id).all()
-        return render_template('whenin/loaning.html', user=user, friends=friends, user_id=user_id)
+        friends_data = [{
+            'id': friend.friend_id,  # Assuming 'friend_id' corresponds to the friend's ID
+            'name': friend.friend_name,
+            'money': User.query.get(friend.friend_id).money  # Assuming 'money' is a field in User model
+        } for friend in friends]
+        return render_template('whenin/loaning.html', user=user, friends=friends_data, user_id=user_id)
     else:
         return "User not found", 404
-
 
 @app.route('/friend_requests')
 def friend_requests():
@@ -177,12 +186,29 @@ def add_friend(user_id):
 def accept_friend_request(request_id):
     friend_request = FriendRequest.query.get(request_id)
     if friend_request:
-        new_friend = Friend(user_id=friend_request.receiver_id, friend_id=friend_request.sender_id, friend_name=friend_request.sender.username, friend_image=friend_request.sender.profile_image)
-        db.session.add(new_friend)
+        # Create a friendship entry for the receiver
+        new_friend_receiver = Friend(
+            user_id=friend_request.receiver_id,
+            friend_id=friend_request.sender_id,
+            friend_name=friend_request.sender.username,
+            # friend_image=friend_request.sender.profile_image  # Assuming profile_image is a field in User model
+        )
+        db.session.add(new_friend_receiver)
+
+        # Create a friendship entry for the sender
+        new_friend_sender = Friend(
+            user_id=friend_request.sender_id,
+            friend_id=friend_request.receiver_id,
+            friend_name=friend_request.receiver.username,
+            # friend_image=friend_request.receiver.profile_image  # Assuming profile_image is a field in User model
+        )
+        db.session.add(new_friend_sender)
+
+        # Delete the friend request
         db.session.delete(friend_request)
         db.session.commit()
         flash('Friend request accepted!', 'success')
-    return redirect(url_for('friend_requests'))
+    return redirect(url_for('social'))
 
 @app.route('/decline_friend_request/<int:request_id>', methods=['POST'])
 def decline_friend_request(request_id):
@@ -200,6 +226,7 @@ def search_friends():
         users = User.query.filter(User.username.contains(query)).all()
         return render_template('whenin/social.html', users=users)
     return redirect(url_for('social'))
+
 @app.route('/search_and_send_request', methods=['POST'])
 def search_and_send_request():
     query = request.form.get('q')
@@ -209,18 +236,34 @@ def search_and_send_request():
     if query and current_user_id:
         user = User.query.filter(User.username.contains(query)).first()
         if user:
-            # Check if a friend request already exists
-            existing_request = FriendRequest.query.filter_by(sender_id=current_user_id, receiver_id=user.id).first()
-            if not existing_request:
-                # Create a new friend request
-                new_request = FriendRequest(sender_id=current_user_id, receiver_id=user.id)
-                db.session.add(new_request)
-                db.session.commit()
-                response['message'] = 'Friend request sent!'
-                response['status'] = 'success'
+            if user.id == current_user_id:
+                response['message'] = 'You cannot send a friend request to yourself.'
+                response['status'] = 'danger'
             else:
-                response['message'] = 'Friend request already sent.'
-                response['status'] = 'info'
+                # Check if the users are already friends
+                existing_friendship = Friend.query.filter_by(user_id=current_user_id, friend_id=user.id).first()
+                if existing_friendship:
+                    response['message'] = 'You are already friends with this user.'
+                    response['status'] = 'info'
+                else:
+                    # Check if a friend request already exists
+                    existing_request = FriendRequest.query.filter_by(sender_id=current_user_id, receiver_id=user.id).first()
+                    if existing_request:
+                        response['message'] = 'Friend request already sent.'
+                        response['status'] = 'info'
+                    else:
+                        # Check if there is a pending friend request from the other user
+                        pending_request = FriendRequest.query.filter_by(sender_id=user.id, receiver_id=current_user_id).first()
+                        if pending_request:
+                            response['message'] = 'There is already a pending friend request from this user.'
+                            response['status'] = 'info'
+                        else:
+                            # Create a new friend request
+                            new_request = FriendRequest(sender_id=current_user_id, receiver_id=user.id)
+                            db.session.add(new_request)
+                            db.session.commit()
+                            response['message'] = 'Friend request sent!'
+                            response['status'] = 'success'
         else:
             response['message'] = 'User does not exist.'
             response['status'] = 'danger'
@@ -230,8 +273,43 @@ def search_and_send_request():
 
     return jsonify(response)
 
-
 @app.route('/profile')
-def profile():
+def profile(user_id):
+    user = User.query.get(user_id)
+    if user:
+        return render_template('whenin/profile.html', user=user)
+    else:
+        return "User not found", 404
+    
+@app.route('/loan', methods=['POST'])
+def loan():
     user_id = session.get('user_id')
-    return render_template('profile.html', user_id=user_id)
+    if not user_id:
+        return jsonify({'success': False, 'message': 'User not logged in'})
+
+    data = request.get_json()
+    friend_id = data.get('friend_id')
+    loan_amount = data.get('loan_amount')
+
+    if not friend_id or not loan_amount:
+        return jsonify({'success': False, 'message': 'Invalid data'})
+
+    lender = User.query.get(user_id)
+    borrower = User.query.get(friend_id)
+
+    if not lender:
+        print(f"Lender with user_id {user_id} not found")
+    if not borrower:
+        print(f"Borrower with friend_id {friend_id} not found")
+
+    if not lender or not borrower:
+        return jsonify({'success': False, 'message': 'User not found'})
+
+    # Update the money fields
+    lender.money -= int(loan_amount)
+    borrower.money += int(loan_amount)
+
+    # Update the User class instead of creating a new Loan entry
+    db.session.commit()
+
+    return jsonify({'success': True})

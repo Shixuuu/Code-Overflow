@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div style="padding:35%;margin: 10%;margin-top:0; background: #e2e2e2;display:flex;justify-content: center;">
-                <div id="add friends here" style="display:flex;flex-direction: column; align-items:flex-start;position: absolute;width:35%;margin-top: -17%;overflow:auto;height:65%">
+                <div id="friends" style="display:flex;flex-direction: column; align-items:flex-start;position: absolute;width:35%;margin-top: -17%;overflow:auto;height:65%">
                     <div id="no friends" style="margin-left:auto;margin-right:auto;font-size:120%;display:none;margin-top:15px">
                         No friends
                     </div>
@@ -40,28 +40,158 @@
             </div>
         </div>
     </div>
-<script>
-var loanlist = []; //pull all loans and convert to list
-//eg. loanlist = [['bee1.png','name','120'],['bee4.png','name2','250']]
-if (loanlist.length == 0){
-    document.getElementById("no ongoing loans").style.display = 'block';
-    console.log(true)
-}
-else{
-    for (i=0;i<loanlist.length;i++){
-        document.getElementById("add loans here").innerHTML += `<table id="loantable"><tr><td><div style='display:flex;flex-direction: row;justify-content: space-between'><div style="display:flex;flex-direction: row;align-items: center;"><img src="${loanlist[i][0]}" id="img"><span id="tablename">${loanlist[i][1]}</span></div><div style="padding:10px;background-color: #ffa800;border-radius: 7px;">$${loanlist[i][2]}</div></div></td></td></tr></table>`;
+
+
+    <!-- Loan Amount Modal -->
+    <div id="loanModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form id="loanForm">
+                <label for="loanAmount">Enter Loan Amount:</label>
+                <input type="number" id="loanAmount" name="loanAmount" required>
+                <input type="hidden" id="friendId" name="friendId">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+    <!-- Modal Styles -->
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+    
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+    
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+    
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    var loanModal = document.getElementById('loanModal');
+    var loanForm = document.getElementById('loanForm');
+
+    // Function to inject friends into the DOM
+    function renderFriends(friendlist) {
+        var friendsContainer = document.getElementById("friends");
+        var noFriendsMessage = document.getElementById("no friends"); // Get the 'no friends' element
+
+        // Check if the 'friends' container and 'no friends' message exist
+        if (!friendsContainer) {
+            console.error("Friends container not found in the DOM.");
+            return;
+        }
+
+        if (!noFriendsMessage) {
+            console.error("'No friends' message not found in the DOM.");
+        }
+
+        // Clear previous content
+        friendsContainer.innerHTML = '';
+
+        // Check if there are no friends
+        if (friendlist.length == 0 && noFriendsMessage) {
+            noFriendsMessage.style.display = 'block'; // Show 'no friends' message
+        } else if (noFriendsMessage) {
+            noFriendsMessage.style.display = 'none'; // Hide 'no friends' message
+            for (var i = 0; i < friendlist.length; i++) {
+                var friendHtml = `
+                <div style='display:flex;flex-direction: row;justify-content: space-between'>
+                    <div style="display:flex;flex-direction: row;align-items: center;">
+                        <img src="${friendlist[i].image}" id="img" alt="${friendlist[i].name}">
+                        <span id="tablename">${friendlist[i].name}</span>
+                    </div>
+                    <div style="padding:15px;background-color: #ffa800;border-radius: 7px;">
+                        $${friendlist[i].money}
+                    </div>
+                    <a href="#" class="loan-link" data-friend-id="${friendlist[i].id}">Loan</a>
+                </div>`;
+
+                // Append friendHtml to the friends container
+                friendsContainer.innerHTML += friendHtml;
+            }
+
+            // After friends are added to the DOM, add event listeners to the loan links
+            document.querySelectorAll('.loan-link').forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const friendId = this.getAttribute('data-friend-id');
+                    console.log(`Setting friendId to ${friendId}`);
+                    document.getElementById('friendId').value = friendId;
+                    loanModal.style.display = 'block';
+                });
+            });
+        }
     }
-}
-// now pray it works as intended
-var friendlist = []; //pull all friend and convert to a list
-//eg. friendlist = [['bee1.png','name']]
-if (friendlist.length == 0){
-    document.getElementById("no friends").style.display = 'block';
-}
-else{
-    for (i=0;i<friendlist.length;i++){
-        document.getElementById("add friends here").innerHTML += `<table id="friendtable"><tr><td><div style='display:flex;flex-direction: row;justify-content: space-between'><div style="display:flex;flex-direction: row;align-items: center;"><img src="${friendlist[i][0]}" id="img"><span id="tablename">${friendlist[i][1]}</span></div><div style="padding:15px;background-color: #ffa800;border-radius: 7px;">Loan</div></div></td></tr></table>`
-    }
-}
-</script>
+
+    // Close the loan modal when clicking on the close button
+    loanModal.querySelector('.close').addEventListener('click', function() {
+        loanModal.style.display = 'none';
+    });
+
+    // Close the loan modal when clicking outside the modal
+    window.addEventListener('click', function(event) {
+        if (event.target == loanModal) {
+            loanModal.style.display = 'none';
+        }
+    });
+
+    document.getElementById('loanForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    var loanAmount = document.getElementById('loanAmount').value;
+    var friendId = document.getElementById('friendId').value;
+    console.log(`Submitting loan with friendId: ${friendId} and loanAmount: ${loanAmount}`);
+    
+    fetch('/loan', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            friend_id: friendId,
+            loan_amount: loanAmount
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Loan successful!');
+            location.reload();
+        } else {
+            alert('Loan failed: ' + data.message);
+        }
+    });
+});
+    // Render the friend list by passing in the friendlist data
+    renderFriends({{ friends|tojson }});
+});
+
+    </script>
 </html>

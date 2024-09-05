@@ -57,3 +57,4 @@ class FriendRequest(db.Model):
             'receiver_username': self.receiver.username,
             # Add other fields as necessary
         }
+    
