@@ -1,10 +1,13 @@
-{% include 'navbar.html' %}
+
+<img src="{{ url_for('static', filename='img/socialbg3.png') }}"  class="backgroundbig" style="left:-8.5%;width:117.3vw; height:136vh; top:-23%; transform: scale(0.9); right: 5vw;">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% include 'navbar.html' %}
 
-<div id="bg" style="display:flex;align-items: center;justify-content: center;flex-direction: column;padding-bottom:80px">
-    <div style="width: 75%;background:#e2e2e2;display: flex;flex-direction: row;margin-top:100px">
+<div id="bg" style="display:flex;align-items: center;justify-content: center;flex-direction: column;padding-bottom:80px; width: 100vw; height: calc(100vh - 160px); padding: 10%;">
+    
+    <div>
 
-        <div>
+        <div class="addandReq">
             <div class="button">
                 <a href="#" >
                     <div  id="addFriendButton">
@@ -41,10 +44,11 @@
             {% endfor %}
         </tbody>
     </table>
+    </div>
 
 
 </div>
-
+{% include 'profileButton.html'%}
 <!-- Add Friend Modal Structure -->
 <div id="addFriendModal" class="modal">
     <div class="modal-content">
@@ -67,6 +71,10 @@
 
 <!-- Modal Styles -->
 <style>
+    h1{
+        position: relative;
+        left:-2vw;
+    }
 .modal {
     display: none;
     position: fixed;
@@ -78,18 +86,21 @@
     overflow: auto;
     background-color: rgb(0,0,0);
     background-color: rgba(0,0,0,0.4);
+    border-radius: 10px;
+    box-shadow:0px 10px 10px;
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: #ffa800;
     margin: 15% auto;
     padding: 20px;
-    border: 1px solid #888;
+    border: 1px solid #000000;
     width: 80%;
+
 }
 
 .close {
-    color: #aaa;
+    color: #000000;
     float: right;
     font-size: 28px;
     font-weight: bold;

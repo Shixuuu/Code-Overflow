@@ -14,65 +14,46 @@
             bottom: 25px;
             right:20px;
         }
-        .circlee {
-            width: 60px;
-            height: 60px;
-            background-color: #ffe159;
+
+
+        .rec {
+            width: 0px;
+            height: 80px;
+            background-color:#ffe159;
+            line-height: 60px;
+            right: 80px;
+            bottom: 55px;
+            position: fixed;
+            z-index: 1;
+            transition: width 0.4s;
+            border: 2px black solid;
+            border-left: none;
+            overflow: hidden;
+        }
+        .circle {
+            width: 80px;
+            height: 80px;
+            background-color:#ffe159;
             border-radius: 50%;
             border: 2px black solid;
             text-decoration: none;
             z-index: 2;
         }
-
         .clip {
-            bottom: 45px;
-            right: 30px;
-            height: 64px;
-            width: 34px;
+            bottom: 55px;
+            right: 45px;
+            height: 80px;
+            width: 35px;
             position: fixed;
             overflow: hidden;
             transform: rotate(180deg);
             z-index: 2;
         }
 
-        .block {
-            bottom: 45px;
-            right: 10px;
-            height: 64px;
-            width: 52px;
-            position: fixed;
-            background-color: #f1cd6e;
-            z-index: 1;
-        }
-
-        .block2 {
-            bottom: 45px;
-            right: 0px;
-            height: 64px;
-            width: 30px;
-            position: fixed;
-            background-color: #f1cd6e;
-            z-index: 3;
-        }
-
-        .rec {
-            width: 230px;
-            height: 60px;
-            background-color:#ffe159;
-            line-height: 60px;
-            right: -170px;
-            bottom: 45px;
-            position: fixed;
-            z-index: 1;
-            transition: transform 0.4s;
-            border: 2px black solid;
-            border-left: none;
-        }
-
         .username {
             line-height: 60px;
-            right: -145px;
-            bottom: 45px;
+            right: -155px;
+            bottom: 65px;
             position: fixed;
             z-index: 3;
             transition: transform 0.4s;
@@ -82,13 +63,13 @@
         }
 
         .cir {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             background-color:#ffe159;
             line-height: 60px;
             border: 2px black solid;
-            right: 30px;
-            bottom: 45px;
+            right: 45px;
+            bottom: 55px;
             position: fixed;
             border-radius: 50%;
             z-index: 1;
@@ -96,28 +77,28 @@
         }
 
         .profile-button:hover .username {
-            transform: translateX(-200px);
+            transform: translateX(-182px);
         }
         .profile-button:hover .rec {
             background-color: #ffe159;
-            transform: translateX(-200px);
+            width: 250px;
         }
 
         .profile-button:hover .cir {
             background-color: #ffe159;
-            transform: translateX(-200px);
+            transform: translateX(-180px);
         }
 
         .profile-button:hover .pfp-container {
-            transform: translateX(-200px);
+            transform: translateX(-180px);
         }
 
         .pfp-container {
-            bottom: 49px;
-            right: 34px;
+            bottom: 59px;
+            right: 50px;
             position: fixed;
-            height: 60px;
-            width: 60px;
+            height: 80px;
+            width: 80px;
             overflow: hidden;
             border-radius: 50%;
             transition: transform 0.4s;
@@ -125,25 +106,22 @@
         }
 
         .pfp-container img {
-            height: 60px;
-            width: 60px;
+            height: 80px;
+            width: 80px;
             transform: scale(0.75);
-            right: -2px;
-            bottom: -2px;
+            right: -4px;
+            bottom: -4px;
         }
+        
     </style>
 
 </head>
 <body>
     <a href="{{ url_for('profile') }}"><div class="profile-button">
         <div class="cir"></div>
-        <div class="rec"></div>
-        <div class="username">Profile Settings</div>
-        <div class="block2"></div>
-        <div class="clip"><div class="circlee"></div></div>
-        <div class="block"></div>
+        <div class="rec"><div class="username">Profile Settings</div></div>
+        <div class="clip"><div class="circle"></div></div>
         <div class="pfp-container"><img src="{{ url_for('static', filename='img/settingslogo3.png') }}" alt="Icon" class="settings"></div>
-        <div class="hard"></div>
     </div></a>
 </body>
 </html>

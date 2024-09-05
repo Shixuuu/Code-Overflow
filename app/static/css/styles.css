@@ -7,7 +7,7 @@ body, html {
 body {
     font-family: Arial, sans-serif;
     overflow: hidden;
-    background-color: #E2E2E2;
+
     padding-bottom: 16px;
 }
 
@@ -17,14 +17,13 @@ body {
     align-items: center;
     background-color: #E2E2E2;
     position: relative;
-    height: 90px;
+    height: 120px;
     width: 100vw;
 }
 
 .navbar-item {
     text-align: center;
     flex: 1;
-    position: relative;
     z-index: 10;
     width: 100px;
 }
@@ -41,11 +40,11 @@ body {
 .navbar-item::before {
     content: '';
     position: absolute;
-    top: -60%;
+    top: -105%;
     left: 6vw;
     transform: translate(-50%, -50%);
-    width: 140px;
-    height: 150px;
+    width: 150px;
+    height: 190px;
     background-color: #FFCC59;
     clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
     z-index: -10;
@@ -56,20 +55,22 @@ body {
 .navbar-item:hover::before {
     background-color:#FFCC59;
     transform: rotate(0deg);
-    height: 120px;
-    width: 200px;
-    left: 26%;
-    top: -12%;
+    height: 190px;
+    width: 220px;
+    left: 21%;
+    top: -40%;
 }
 
 .navbar-item:hover img {
     width: 85px;
     height: 70px;
+    margin-top: 5px;
 }
 
 .navbar-item.active img {
-    width: 85px;
-    height: 70px;
+    width: 105px;
+    height: 90px;
+    margin: -20px auto 0px auto;
 }
 
 .navbar-item span {
@@ -113,8 +114,8 @@ body {
     top: 100%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 180px;
-    height: 120px;
+    width: 220px;
+    height: 180px;
     background-color: #ffa800;
     clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
     z-index: -1;
@@ -123,36 +124,14 @@ body {
 .navbar-item.active::before {
     content: '';
     position: absolute;
-    top: 90%;
+    top: 100%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 220px;
-    height: 160px;
+    width: 260px;
+    height: 220px;
     background-color: #CFCFCF;
     clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
     z-index: -1;
-}
-
-.frame {
-    height: 88vh;
-    border:#E2E2E2 16px solid;
-    border-top:#E2E2E2 6px solid;
-    border-radius: 7%;
-    background-color: transparent;
-    position: fixed;
-    width: calc(100vw - 32px);
-    overflow: hidden;
-    z-index: -5;
-}
-
-.hard {
-    background-color:#E2E2E2;
-    height: 100px;
-    width: 16px;
-    position: fixed;
-    bottom: 30px;
-    right: 0px;
-    z-index: 9;
 }
 
 @media (max-width: 1200px) {
@@ -369,4 +348,10 @@ body {
     .navbar-item.active span {
         font-size: 12px;
     }
+}
+
+.backgroundbig {
+    transform: scale(1.17);
+    top: -6%;
+    height: 109vh;
 }

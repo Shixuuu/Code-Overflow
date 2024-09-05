@@ -9,7 +9,7 @@
         body{
             margin: 0;
             padding: 0;
-            background-color: #E2E2E2;
+            overflow: hidden;
         }
 
 
@@ -18,8 +18,7 @@
             z-index: -9;
             position:absolute;
             top: 0;
-            width:100vw;
-            height:100vh;
+            width:100vw; height:102vh; transform: scale(1.01);
         }
 
         .navbar {
@@ -319,9 +318,9 @@
         }
 
         #jar {
-            height: 78vh;
+            height: 70vh;
             top: 20vh;
-            left: 60vh;
+            left: calc(50vw - 300px);
             position: absolute;
         }
 
@@ -339,16 +338,6 @@
             left: 4vw;
             font-size: 40px;
         }
-        .frame {
-            height: 88vh;
-            border:#E2E2E2 16px solid;
-            border-top:#E2E2E2 6px solid;
-            border-radius: 7%;
-            background-color: transparent;
-            position: fixed;
-            width: calc(100vw - 32px);
-            overflow: hidden;
-        }
 
         .hard {
             background-color:#E2E2E2;
@@ -363,7 +352,7 @@
     </style>
 </head>
 {% include 'navbar.html' %} 
-<div class="frame"><img src="{{ url_for('static', filename='img/jarbg.png') }}"  class="backgroundbig"></div>
+<img src="{{ url_for('static', filename='img/honeyjarbg3.png') }}"  class="backgroundbig" style="left:-7.6%;width:115.5vw; height:126vh; top:-15%; transform: scale(1.01); right: 5vw;">
 {% include 'profileButton.html'%}
     <p id="goal">GOAL: (placeholder)</p>
     <p id="progress">COUNTER: (placeholder)</p>

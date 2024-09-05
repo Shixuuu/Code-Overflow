@@ -8,17 +8,6 @@ body {
     font-size: 1rem;
     font-family: silkscreen, 'Trebuchet MS', Arial, sans-serif;
 }
-.frame {
-    height: 88vh;
-    border:#E2E2E2 16px solid;
-    border-top:#E2E2E2 6px solid;
-    border-radius: 7%;
-    background-color: transparent;
-    position: fixed;
-    width: calc(100vw - 32px);
-    overflow: hidden;
-    z-index: -5;
-}
 
 .hard {
     background-color:#E2E2E2;
@@ -28,14 +17,6 @@ body {
     bottom: 30px;
     right: 0px;
     z-index: 9;
-}
-.backgroundbig {
-    display:block;
-    z-index: -9;
-    position:absolute;
-    top: 0;
-    width:100vw;
-    height:100vh;
 }
 
 

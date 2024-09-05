@@ -1,34 +1,678 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Investment</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-    <div id="bg" data-sector="{{ user.sector }}"></div>
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            font-family: silkscreen;
+        }
+        #insuranceimages {
+            margin-top: 21vh;
+            width: 100vw;
+            position: absolute;
+            top: 0;
+        }
+
+        .backgroundbig {
+            display:block;
+            z-index: -1;
+            position:absolute;
+            top: 0;
+            width:100vw;
+            height:100vh;
+        }
+
+        .navbar {
+            display: flex;
+            position: absolute;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #E2E2E2;
+            position: relative;
+            height: 100px;
+            z-index: 10000000;
+        }
+
+        .navbar-item {
+            text-align: center;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .navbar-item img {
+            width: 68px;
+            height: 55px;
+            display: block;
+            margin: -10px auto 3px auto;
+            transition: 0.4s;
+        }
+
+        .navbar-item:hover img {
+            width: 85px;
+            height: 70px;
+        }
+
+        .navbar-item.active img {
+            width: 85px;
+            height: 70px;
+        }
+
+        .navbar-item span {
+            font-size: medium;
+            color: #000;
+            font-weight: bold;
+            transition: 0.4s;
+        }
+
+        .navbar a {
+            text-decoration: none;
+        }
+
+        .navbar-item:hover span {
+            font-size: large;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .navbar-item.active span {
+            font-size: large;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .separator {
+            height: 60px;
+            border-left: 4px solid #FFCC59;
+        }
+
+        .navbar-item.active {
+            height: 45px;
+        }
+
+        .navbar-item.active::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 185px;
+            height: 140px;
+            background-color: #FFCC59;
+            clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+            z-index: -1;
+        }
+
+        .navbar-item.active::before {
+            content: '';
+            position: absolute;
+            top: 90%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 225px;
+            height: 180px;
+            background-color: #E2E2E2;
+            clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+            z-index: -1;
+        }
+
+        @media (max-width: 1200px) {
+            .navbar-item img {
+                width: 55px;
+                height: 45px;
+            }
+
+            .navbar-item:hover img, .navbar-item.active img {
+                width: 70px;
+                height: 58px;
+            }
+
+            .navbar-item.active::after {
+                width: 135px;
+                height: 105px;
+            }
+
+            .navbar-item.active::before {
+                width: 165px;
+                height: 140px;
+            }
+
+            .navbar-item.active {
+                height: 35px;
+            }
+
+            .navbar-item span {
+                font-size: 16px;
+            }
+
+            .navbar-item.active span {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .navbar-item img {
+                width: 50px;
+                height: 40px;
+            }
+
+            .navbar-item:hover img, .navbar-item.active img {
+                width: 65px;
+                height: 52px;
+            }
+
+            .navbar-item.active::after {
+                width: 125px;
+                height: 95px;
+            }
+
+            .navbar-item.active::before {
+                width: 155px;
+                height: 125px;
+            }
+
+            .separator {
+                height: 50px;
+                border-left-width: 3px;
+            }
+
+            .navbar-item.active {
+                height: 30px;
+            }
+
+            .navbar-item span {
+                font-size: 14px;
+            }
+
+            .navbar-item.active span {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                height: 70px;
+            }
+
+            .navbar-item img {
+                width: 45px;
+                height: 36px;
+            }
+
+            .navbar-item:hover img, .navbar-item.active img {
+                width: 60px;
+                height: 48px;
+            }
+
+            .navbar-item.active::after {
+                width: 105px;
+                height: 85px;
+            }
+
+            .navbar-item.active::before {
+                width: 135px;
+                height: 115px;
+            }
+
+            .separator {
+                height: 45px;
+                border-left-width: 2px;
+            }
+
+            .navbar-item.active {
+                height: 30px;
+            }
+
+            .navbar-item span {
+                font-size: 12px;
+            }
+
+            .navbar-item.active span {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar {
+                height: 60px;
+            }
+
+            .navbar-item img {
+                width: 40px;
+                height: 32px;
+            }
+
+            .navbar-item:hover img, .navbar-item.active img {
+                width: 40px;
+                height: 30px;
+            }
+
+            .navbar-item.active::after {
+                width: 75px;
+                height: 65px;
+            }
+
+            .navbar-item.active::before {
+                width: 90px;
+                height: 90px;
+            }
+
+            .separator {
+                height: 40px;
+                border-left-width: 2px;
+            }
+
+            .navbar-item.active {
+                height: 20px;
+            }
+
+            .navbar-item span {
+                font-size: 10px;
+            }
+
+            .navbar-item.active span {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .navbar {
+                height: 50px;
+            }
+
+            .navbar-item img {
+                width: 35px;
+                height: 28px;
+            }
+
+            .navbar-item:hover img, .navbar-item.active img {
+                width: 45px;
+                height: 35px;
+            }
+
+            .navbar-item.active::after {
+                width: 55px;
+                height: 60px;
+            }
+
+            .navbar-item.active::before {
+                width: 75px;
+                height: 75px;
+            }
+
+            .separator {
+                height: 35px;
+                border-left-width: 1.5px;
+            }
+
+            .navbar-item.active {
+                height: 25px;
+            }
+
+            .navbar-item span {
+                font-size: 8px;
+            }
+
+            .navbar-item.active span {
+                font-size: 12px;
+            }
+        }
+
+        #up {
+            margin-left: 32.55vw;
+            width: 34vw;
+            margin-top: 80.93vh;
+            position: absolute;
+        }
+
+        .stock_image {
+            width: 50vw;
+            position: absolute;
+            margin-left: 20vw;
+            margin-top: 10vh;
+        }
+
+        .stock_button {
+            border-style: none;
+            position: absolute;
+            padding: 10px;
+            position: absolute;
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+
+        #stock_button1{
+            margin-left: 70vw;
+            margin-top: 15vh;
+        }
+        .stock-button:hover{
+            cursor: pointer 0 0 default;
+        }
+        
+
+        #stock_button2{
+            margin-left: 70vw;
+            margin-top: 28vh;
+        }
+        
+
+        #stock_button3{
+            margin-left: 70vw;
+            margin-top: 40vh;
+        }
+        
+        #stock_button4{
+            margin-left: 70vw;
+            margin-top: 53vh;
+        }
+
+        #stock_button5{
+            margin-left: 70vw;
+            margin-top: 65vh;
+        }
+        .backgroundbig {
+            display:block;
+            z-index: -9;
+            position:absolute;
+            top: 0;
+            width:100vw;
+            height:100vh;
+        }
+        #display-stock{
+            width: 50vw;
+            position: absolute;
+            margin-left: 20vw;
+            margin-top: 10vh;
+        }
+        #pop-up{
+            position: fixed;
+            top:0; left:0;
+            background: rgba(0,0,0,.7);
+            height:100vh;
+            width:100vw;
+            z-index:100;
+            display:none;
+        }
+        #text-box{
+            position: absolute;
+            width: 60%;
+            height: 45%;
+            display:block;
+            background: #FFCC59;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        #text-box-text{
+            height:25%;
+            text-align: center;
+            margin-top:15%;
+        }
+        #confirm-cancel-buttons{
+            height:30%;
+            display:flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+        #confirm-button{
+            padding:7px 12px;
+            background: #ffcc59;
+            border-radius: 5px;
+            border: black 1px;
+        }
+        #confirm-button:hover{
+            background: #d1aa4f;
+        }
+        #cancel-button{
+            padding:7px 12px;
+            background: #e2e2e2;
+            border-radius: 5px;
+            border: black 1px;
+        }
+        #cancel-button:hover{
+            background: #cfcfcf;
+        }
+        #stock-library-bg{
+            background: #e2e2e2;
+            overflow: hidden;
+            height:80%;
+            bottom:-80%;
+            z-index: 5;
+            transition:0.5s;
+        }
+        #stock-library{
+            width:90%;
+            display:flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            overflow: auto;
+        }
+        #stock-indiv{
+            width:20%;
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
     {% include 'navbar.html'%}
-    <div class="frame"><img src="{{ url_for('static', filename='img/jarbg.png') }}"  class="backgroundbig"></div>
+    <img src="{{ url_for('static', filename='img/investmentbg3.png') }}"  class="backgroundbig" style="width:100vw; height:102vh; transform: scale(1.01);">
 
     {% include 'profileButton.html'%}
     <img src="{{ url_for('static', filename='img/lose.png') }}" class="backgroundbig">
-    <img src="{{ url_for('static', filename='img/up.png') }}" id="up">
+    <img src="{{ url_for('static', filename='img/up.png') }}" id="up" onclick="showstocklist()">
+    <!--
     <img src="{{ url_for('static', filename='img/lose1.png') }}" class="stock_image" id="stock1">
-    <img src="{{ url_for('static', filename='img/lose2.png') }}" class="stock_image" id="stock2">
+    <img src="{{ url_for('static', filename='img/lose2.png') }}"class="stock_image" id="stock2">
     <img src="{{ url_for('static', filename='img/lose3.png') }}" class="stock_image" id="stock3">
     <img src="{{ url_for('static', filename='img/lose4.png') }}" class="stock_image" id="stock4">
-    <img src="{{ url_for('static', filename='img/lose5.png') }}" class="stock_image" id="stock5">
-    <button class="stock_button" id="stock_button1">stock1</button>
-    <button class="stock_button" id="stock_button2">stock2</button>
-    <button class="stock_button" id="stock_button3">stock3</button>
-    <button class="stock_button" id="stock_button4">stock4</button>
-    <button class="stock_button" id="stock_button5">stock5</button>
-
-
-
-    <script src="{{ url_for('static', filename='scripts/background.js') }}"></script>
-
+    <img src="{{ url_for('static', filename='img/lose5.png') }}"class="stock_image" id="stock5">
+    -->
+    <img src="{{ url_for('static', filename='img/lose1.png') }}" class="stock-image" id="display-stock" onclick="getmoney('HexTech Corp.')">
+    <button class="stock_button" id="stock_button1" onclick="stockdisplay(0)">HexTech Corp.</button>
+    <button class="stock_button" id="stock_button2" onclick="stockdisplay(1)">Nvidia</button>
+    <button class="stock_button" id="stock_button3" onclick="stockdisplay(2)">MetalMaxxing Industries</button>
+    <button class="stock_button" id="stock_button4" onclick="stockdisplay(3)">AlphaEd Academy</button>
+    <button class="stock_button" id="stock_button5" onclick="stockdisplay(4)">TerraBloom AgTech</button>
+    <div id="pop-up" style="display:none;">
+        <div id="text-box">
+            <div id="text-box-text">
+                <form>
+                    enter how much you want to invest
+                    <input type="number" id="invest-amount">
+                </form>
+            </div>
+            <div id="confirm-cancel-buttons">
+                <div id="confirm-button" onclick="confirm()">
+                    Confirm
+                </div>
+                <div id="cancel-button" onclick="cancel()">
+                    Cancel
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="stock-library-bg">
+        <div id="stock-library">
+            <div id="stock-indiv">
+                <!--img-->
+                <!--caption-->  
+            </div>
+            <div id="stock-indiv">
+                <!--img2-->
+                <!--caption2-->
+            </div>
+        </div>
+    </div>
 </body>
+<script>
+setTimeout(change(),60000);
+var total = ['HexTech Corp.','ByteBridge Innovations','Quantum Nexus Systems','CyberWave Technologies','ReyganCloud IT Services','ByteStream Cloud','Innovatech Networks','DigiMinds IT Solutions','SoftSynergy Systems','DataDynamics Tech','InfoSphere Solutions','CodeCrafters Inc.',
+    'SilverLine Financial Services','Regal Wealth Group','BeaconBridge Advisors','Golden Oak Finance','Quantum Capital Management','BlueHorizon Financial','Vertex Financial Solutions','Daven Trust Advisors','Equinox Investment Partners','Pinnacle Wealth Management','ClearView Capital Advisors','Novus Financial Group',
+    'NextGen Media Solutions','FocusLine Productions','BrightStar Content Creators','Radiant Media Networks','CrystalClear Communications','WaveForm Productions','Aurora Media Group','PulsePoint Media','VelvetSky Studios','EchoSphere Broadcasting','EthanWave Productions','Horizon Media Works',
+    'EduVantage Learning Hub','FuturePath Education Group','TerraNova Education Center','AlphaEd Academy','LearnBeyond Institute','InnovEdu Labs','Vertex Learning Solutions','MindBridge Education','Global Scholars Academy','Excelia Learning Systems','Horizon Academy Network','ShixuNest Learning',
+    'SteelWave Manufacturing','NovaTech Fabrication','MetalMaxxing Industries','Advanced Machining Group','ProForge Metals','FlexiBuild Solutions','Apex Precision Tool','PrimeSteel Foundry','TitanWorks Manufacturing','OmniCraft Fabricators','Vertex Manufacturing Co.','IronForge Industries',
+    'FreshSprout AgroVentures','AgroVista GMOs',"Nature's Bounty Agri-Tech",'GreenLeaf GMOs','Evergreen Crop Co.','Sunrise Valley Analysis','EarthBound Agriculture','PureGrow GMOs','Golden Harvest Agri-bots','TerraBloom AgTech','Harvest Haven Research','AlfredoFields PlantCorp'
+]
+var filenamelist = ["{{ url_for('static', filename='img/lose1.png') }}" ,
+    "{{ url_for('static', filename='img/lose2.png') }}" ,
+    "{{ url_for('static', filename='img/lose3.png') }}" ,
+    "{{ url_for('static', filename='img/lose4.png') }}" ,
+    "{{ url_for('static', filename='img/lose5.png') }}" ,
+    "{{ url_for('static', filename='img/lose6.png') }}" ,
+    "{{ url_for('static', filename='img/lose7.png') }}" ,
+    "{{ url_for('static', filename='img/lose8.png') }}" ,
+    "{{ url_for('static', filename='img/win1.png') }}" ,
+    "{{ url_for('static', filename='img/win2.png') }}" ,
+    "{{ url_for('static', filename='img/win3.png') }}" ,
+    "{{ url_for('static', filename='img/win4.png') }}" ,
+    "{{ url_for('static', filename='img/win5.png') }}" ,
+    "{{ url_for('static', filename='img/win6.png') }}" ,
+    "{{ url_for('static', filename='img/win7.png') }}" ,
+    "{{ url_for('static', filename='img/win8.png') }}"];
+var stock = {
+    1: {'name':'HexTech Corp.','win':1.21,'lose':0.91,'winc':0.10,'constant':false,'guar':0},
+    2: {'name':'two','win':1.20,'lose':0.86,'winc':0.05,'constant':false,'guar':0},
+    3: {'name':'three','win':1.18,'lose':0.94,'winc':0.10,'constant':false,'guar':0},
+    4: {'name':'TerraBloom AgTech','win':1.16,'lose':0.80,'winc':0.10,'constant':false,'guar':0}, 
+    5: {'name':'Equinox Investment Partner','win':1.15,'lose':0.88,'winc':0.18,'constant':false,'guar':0}, 
+    6: {'name':'Hornet Pay','win':1.10,'lose':0.86,'winc':0.12,'constant':true,'guar':0}, 
+    7: {'name':'Nvidia','win':1.10,'lose':0.77,'winc':0.01,'constant':true,'guar':0}, 
+    8: {'name':'MetalMaxxing Industries','win':1.18,'lose':0.88,'winc':0.88,'constant':false,'guar':1}, 
+    9: {'name':'FuturePath Education Group','win':1.11,'lose':0.98,'winc':0.90,'constant':false,'guar':1}, 
+    10: {'name':'Arasaka Corp.','win':1.09,'lose':0.87,'winc':0.91,'constant':false,'guar':1}, 
+    11: {'name':'AlphaEd Academy','win':1.11,'lose':0.89,'winc':0.93,'constant':false,'guar':1},  
+    12: {'name':'Mouse Pay','win':1.05,'lose':0.89,'winc':0.89,'constant':true,'guar':1}, 
+    13: {'name':'Wasp Pay','win':1.04,'lose':0.85,'winc':0.13,'constant':true,'guar':0}, 
+    14: {'name':'fourteen','win':1.02,'lose':0.89,'winc':0.98,'constant':false,'guar':1}, 
+    15: {'name':'ReyganCloud IT Services','win':1.04,'lose':0.97,'winc':0.94,'constant':false,'guar':1},  
+    16: {'name':'FocusLine Productions','win':1.01,'lose':0.98,'winc':0.97,'constant':false,'guar':1} 
+    };
+var mag = true;
+function change(){
+    mag = false;
+    document.getElementById("stock_button2").innerHTML = "ReyganCloud IT Services";
+    document.getElementById("stock_button1").innerHTML = "Equinox Investment Partners";
+    document.getElementById("stock_button3").innerHTML = "FuturePath Education Group";
+    document.getElementById("stock_button4").innerHTML = "Arasaka Corp.";
+    document.getElementById("stock_button5").innerHTML = "Wasp Pay";
+    document.getElementById("stock_button1").onclick = "";
+
+
+
+}
+function getmoney(a){
+    while (true){
+        var v = prompt("Enter how much to invest");
+        if (0<v<=money){
+            break
+        }
+        else{
+            alert("Invalid amount")
+        }
+    }
+    const stored = Number(v);
+    for (let i of Object.keys(stock)){
+        if (stock[i]['name']==a){
+            var result = Math.floor(Math.random() * 101);
+            if (result<=stock[i]['winc']){
+                result = 'win';
+            }
+            else{
+                result = 'lose';
+            }
+            var change = Number(v)*(stock[i][result])
+            if (result == "win"){
+                alert(`You won $${change-stored}`)
+                money += (change-stored)
+                break
+            }
+            else{
+                alert(`You lose $${stored-change}`)
+                money -= (stored-change)
+                break
+            }
+        }
+    }
+}
+
+function stockdisplay(n){
+    if (n==0){
+        gyatt = "{{ url_for('static', filename='img/lose1.png') }}";
+        if (!mag){
+            gyatt = "{{ url_for('static', filename='img/lose2.png') }}"
+        }
+    }
+    else if (n==1){
+        gyatt = "{{ url_for('static', filename='img/win8.png') }}";
+        if (!mag){
+            gyatt = "{{ url_for('static', filename='img/win7.png') }}";
+        }
+    }
+    else if (n==2){
+        gyatt = "{{ url_for('static', filename='img/win5.png') }}";
+        if (!mag){
+            gyatt = "{{ url_for('static', filename='img/win1.png') }}";
+        }
+    }
+    else if (n==3){
+        gyatt = "{{ url_for('static', filename='img/win4.png') }}";
+        if (!mag){
+            gyatt = "{{ url_for('static', filename='img/win2.png') }}";
+        }
+    }
+    else if (n==4){
+        gyatt = "{{ url_for('static', filename='img/lose6.png') }}";
+        if (!mag){
+            gyatt = "{{ url_for('static', filename='img/lose5.png') }}";
+            }
+        }
+    document.getElementById("display-stock").src = gyatt;
+    document.getElementById("display-stock").onclick = `getmoney(${document.getElementById(`stock_number${n+1}`).innerHTML})`
+}
+
+
+
+var money = 0;//money of user
+function popup(){
+    document.getElementById("pop-up").style.display = "block";
+}
+function cancel(){
+    document.getElementById("pop-up").style.display = 'none';
+}
+function stockdisplay(n){
+    if (document.getElementById("display-stock").src == filenamelist[n]){
+        popup();
+    }
+    else{
+        document.getElementById("display-stock").src = filenamelist[n];
+    }
+}
+function confirm(){
+    var amt = document.getElementById("invest-amount").value;
+    cancel()
+    money -= amt;
+    //run algorithm using amt
+}
+var show = 0;
+function showstocklist(){
+    if (show==0){
+        show+=1;
+        document.getElementById("stock-library-bg").style.bottom = '0';
+    }
+    else if (show==1){
+        show-=1;
+        document.getElementById('stock-library-bg').style.bottom = '-80%';
+    }
+}
+</script>
 </html>

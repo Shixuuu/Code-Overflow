@@ -277,7 +277,7 @@ def search_and_send_request():
 def profile(user_id):
     user = User.query.get(user_id)
     if user:
-        return render_template('whenin/profile.html', user=user)
+        return render_template('profile.html', user=user)
     else:
         return "User not found", 404
     
