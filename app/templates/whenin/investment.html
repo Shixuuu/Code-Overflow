@@ -340,20 +340,30 @@
         }
 
         .stock_button {
+            background: #cfcfcf;
             border-style: none;
             position: absolute;
+            left:-120px;
             padding: 10px;
-            position: absolute;
-            padding-top: 30px;
-            padding-bottom: 30px;
+            padding-left: 200px;
+            width:150px;
+            max-width: 150px;
+            height:75px;
+            max-height:75px;
+            text-align: center;
+            vertical-align: middle;
+            transition: transform 0.4s;
+            transform: translateX(-60px);
+            z-index: -5;
+        }
+        .stock_button:hover{
+            transform: translateX(0px);
+            cursor: pointer;
         }
 
         #stock_button1{
             margin-left: 70vw;
             margin-top: 15vh;
-        }
-        .stock-button:hover{
-            cursor: pointer 0 0 default;
         }
         
 
@@ -397,14 +407,14 @@
             background: rgba(0,0,0,.7);
             height:100vh;
             width:100vw;
-            z-index:100;
+            z-index:10;
             display:none;
+            justify-content: center;
+            align-items: center;
         }
         #text-box{
-            position: absolute;
             width: 60%;
             height: 45%;
-            display:block;
             background: #FFCC59;
             display: flex;
             flex-direction: column;
@@ -413,31 +423,44 @@
         #text-box-text{
             height:25%;
             text-align: center;
-            margin-top:15%;
+            margin-top:2%;
+        }
+        #text-box-text form{
+            margin-top:5%
+        }
+        #text-box-title{
+            font-size: 200%;
+            color: #ffa800;
+            text-align:center;
         }
         #confirm-cancel-buttons{
             height:30%;
             display:flex;
             flex-direction: row;
             justify-content: space-around;
+            margin-top: 5%;
         }
         #confirm-button{
             padding:7px 12px;
             background: #ffcc59;
             border-radius: 5px;
-            border: black 1px;
+            border: 1px solid black;
+            margin:auto;
         }
         #confirm-button:hover{
             background: #d1aa4f;
+            cursor: pointer;
         }
         #cancel-button{
             padding:7px 12px;
             background: #e2e2e2;
             border-radius: 5px;
             border: black 1px;
+            margin:auto;
         }
         #cancel-button:hover{
             background: #cfcfcf;
+            cursor: pointer;
         }
         #stock-library-bg{
             background: #e2e2e2;
@@ -461,15 +484,55 @@
             flex-direction: column;
             justify-content: center;
         }
+
+        #pattern_chart {
+            left: 1vw;
+            width: 70vw;
+            position: absolute;
+            top: 21.4vh;
+            z-index: 5;
+            bottom: 10%;
+            height: 83vh;
+        }
+        
+        #up_button {
+            position: fixed;
+            border-style: none;
+            clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+            padding: 20px;
+            background-color: #ffa800;
+            top: 36vh;
+            left: 3.2vw;
+            z-index: 9;
+        }
+
+        #up_button:hover {
+            cursor:pointer;
+        }
+        #moneyDisplay{
+            margin-top:100px;
+            margin-left:45px;
+            position:absolute;
+            font-size: 200%;
+        }
+        #mileageDisplay{
+            margin-top:150px;
+            margin-left:45px;
+            position:absolute;
+            font-size: 200%;
+        }
     </style>
 </head>
 <body>
     {% include 'navbar.html'%}
-    <img src="{{ url_for('static', filename='img/investmentbg3.png') }}"  class="backgroundbig" style="width:100vw; height:102vh; transform: scale(1.01);">
+    <img src="{{ url_for('static', filename='img/honeyjarbg3.png') }}"  class="backgroundbig" style="left:-7.6%;width:115.5vw; height:127vh; top:-15%; transform: scale(1.01); right: 5vw;">
 
     {% include 'profileButton.html'%}
     <img src="{{ url_for('static', filename='img/lose.png') }}" class="backgroundbig">
-    <img src="{{ url_for('static', filename='img/up.png') }}" id="up" onclick="showstocklist()">
+    <button id="up_button" popovertarget="pattern_chart" onclick="switc()">Open Stock Pattern Chart</button>
+    <img src="{{ url_for('static', filename='img/stockchart.jpeg') }}" id="pattern_chart" popover> <!---shi xu halp mi-->
+    <div id="moneyDisplay">Honey: $0</div>
+    <div id="mileageDisplay">Mileage: 1.0x</div>
     <!--
     <img src="{{ url_for('static', filename='img/lose1.png') }}" class="stock_image" id="stock1">
     <img src="{{ url_for('static', filename='img/lose2.png') }}"class="stock_image" id="stock2">
@@ -478,21 +541,24 @@
     <img src="{{ url_for('static', filename='img/lose5.png') }}"class="stock_image" id="stock5">
     -->
     <img src="{{ url_for('static', filename='img/lose1.png') }}" class="stock-image" id="display-stock" onclick="getmoney('HexTech Corp.')">
-    <button class="stock_button" id="stock_button1" onclick="stockdisplay(0)">HexTech Corp.</button>
-    <button class="stock_button" id="stock_button2" onclick="stockdisplay(1)">Nvidia</button>
-    <button class="stock_button" id="stock_button3" onclick="stockdisplay(2)">MetalMaxxing Industries</button>
-    <button class="stock_button" id="stock_button4" onclick="stockdisplay(3)">AlphaEd Academy</button>
-    <button class="stock_button" id="stock_button5" onclick="stockdisplay(4)">TerraBloom AgTech</button>
-    <div id="pop-up" style="display:none;">
+    <div class="stock_button" id="stock_button1" onclick="stockdisplay1()">HexTech Corp.</div>
+    <div class="stock_button" id="stock_button2" onclick="stockdisplay2()">Nvidia</div>
+    <div class="stock_button" id="stock_button3" onclick="stockdisplay3()">MetalMaxxing Industries</div>
+    <div class="stock_button" id="stock_button4" onclick="stockdisplay4()">AlphaEd Academy</div>
+    <div class="stock_button" id="stock_button5" onclick="stockdisplay5()">TerraBloom AgTech</div>
+    <div id="pop-up">
         <div id="text-box">
             <div id="text-box-text">
+                <div id="text-box-title">
+                    word word word wrod
+                </div>
                 <form>
-                    enter how much you want to invest
+                    enter how much you want to invest<br>
                     <input type="number" id="invest-amount">
                 </form>
             </div>
             <div id="confirm-cancel-buttons">
-                <div id="confirm-button" onclick="confirm()">
+                <div id="confirm-button" onclick="confirm('Equinox Investment Partners')">
                     Confirm
                 </div>
                 <div id="cancel-button" onclick="cancel()">
@@ -515,7 +581,28 @@
     </div>
 </body>
 <script>
-setTimeout(change(),60000);
+sw = true
+function switc(){
+    if (sw == true){
+        document.getElementById('up_button').innerHTML = "Close Stock Pattern Chart";
+    }
+    else{
+        document.getElementById("up_button").innerHTML = "Open Stock Pattern Chart";
+    }
+    sw = !sw
+}
+function get_money() {
+        let money = parseInt(localStorage.getItem('money'));
+        let mileage = parseFloat(localStorage.getItem('mileage'));
+    }
+
+window.onload = function() {
+    get_money();
+    let money = parseInt(localStorage.getItem('money'));  // Retrieve stored value
+    document.getElementById('moneyDisplay').innerHTML = `Honey: $${money}`;  // Update <p> content
+    document.getElementById('mileageDisplay').innerHTML = `Mileage: ${mileage}x`;
+}
+setTimeout(change,60000);
 var total = ['HexTech Corp.','ByteBridge Innovations','Quantum Nexus Systems','CyberWave Technologies','ReyganCloud IT Services','ByteStream Cloud','Innovatech Networks','DigiMinds IT Solutions','SoftSynergy Systems','DataDynamics Tech','InfoSphere Solutions','CodeCrafters Inc.',
     'SilverLine Financial Services','Regal Wealth Group','BeaconBridge Advisors','Golden Oak Finance','Quantum Capital Management','BlueHorizon Financial','Vertex Financial Solutions','Daven Trust Advisors','Equinox Investment Partners','Pinnacle Wealth Management','ClearView Capital Advisors','Novus Financial Group',
     'NextGen Media Solutions','FocusLine Productions','BrightStar Content Creators','Radiant Media Networks','CrystalClear Communications','WaveForm Productions','Aurora Media Group','PulsePoint Media','VelvetSky Studios','EchoSphere Broadcasting','EthanWave Productions','Horizon Media Works',
@@ -560,17 +647,20 @@ var stock = {
 var mag = true;
 function change(){
     mag = false;
-    document.getElementById("stock_button2").innerHTML = "ReyganCloud IT Services";
     document.getElementById("stock_button1").innerHTML = "Equinox Investment Partners";
+    document.getElementById("stock_button2").innerHTML = "ReyganCloud IT Services";
     document.getElementById("stock_button3").innerHTML = "FuturePath Education Group";
     document.getElementById("stock_button4").innerHTML = "Arasaka Corp.";
     document.getElementById("stock_button5").innerHTML = "Wasp Pay";
-    document.getElementById("stock_button1").onclick = "";
-
-
-
+    document.getElementById("stock_button1").onclick = function(){getmoney('Equinox Investment Partners')};
+    document.getElementById("stock_button2").onclick = function(){getmoney('ReyganCloud IT Services')};
+    document.getElementById("stock_button3").onclick = function(){getmoney('FuturePath Education Group')};
+    document.getElementById("stock_button4").onclick = function(){getmoney('Arasaka Corp.')};
+    document.getElementById("stock_button5").onclick = function(){getmoney('Wasp Pay')};
 }
 function getmoney(a){
+    popup(a)
+    /*
     while (true){
         var v = prompt("Enter how much to invest");
         if (0<v<=money){
@@ -602,77 +692,108 @@ function getmoney(a){
                 break
             }
         }
-    }
+    }*/
 }
 
-function stockdisplay(n){
-    if (n==0){
-        gyatt = "{{ url_for('static', filename='img/lose1.png') }}";
-        if (!mag){
-            gyatt = "{{ url_for('static', filename='img/lose2.png') }}"
-        }
+function stockdisplay1(){
+    gyatt = "{{ url_for('static', filename='img/lose1.png') }}";
+    hy = "HexTech Corp.";
+    if (!mag){
+        gyatt = "{{ url_for('static', filename='img/lose2.png') }}"
+        hy = 'Equinox Investment Partners';
     }
-    else if (n==1){
-        gyatt = "{{ url_for('static', filename='img/win8.png') }}";
-        if (!mag){
-            gyatt = "{{ url_for('static', filename='img/win7.png') }}";
-        }
-    }
-    else if (n==2){
-        gyatt = "{{ url_for('static', filename='img/win5.png') }}";
-        if (!mag){
-            gyatt = "{{ url_for('static', filename='img/win1.png') }}";
-        }
-    }
-    else if (n==3){
-        gyatt = "{{ url_for('static', filename='img/win4.png') }}";
-        if (!mag){
-            gyatt = "{{ url_for('static', filename='img/win2.png') }}";
-        }
-    }
-    else if (n==4){
-        gyatt = "{{ url_for('static', filename='img/lose6.png') }}";
-        if (!mag){
-            gyatt = "{{ url_for('static', filename='img/lose5.png') }}";
-            }
-        }
     document.getElementById("display-stock").src = gyatt;
-    document.getElementById("display-stock").onclick = `getmoney(${document.getElementById(`stock_number${n+1}`).innerHTML})`
+    document.getElementById("display-stock").onclick = function(){getmoney(`${hy}`)};
+    documemt.getElementById("confirm-button").onclick = function(){confirm(`${hy}`)};
+}
+function stockdisplay2(){
+    gyatt = "{{ url_for('static', filename='img/win8.png') }}";
+    hy = "Nvidia";
+    if (!mag){
+        gyatt = "{{ url_for('static', filename='img/win7.png') }}";
+        hy = "ReyganCloud IT Services";
+    }
+    document.getElementById("display-stock").src = gyatt;
+    document.getElementById("display-stock").onclick = function(){getmoney(`${hy}`)};
+    documemt.getElementById("confirm-button").onclick = function(){confirm(`${hy}`)};
+}
+function stockdisplay3(){
+    gyatt = "{{ url_for('static', filename='img/win5.png') }}";
+    hy = "MetalMaxxing Industries"
+    if (!mag){
+        gyatt = "{{ url_for('static', filename='img/win1.png') }}";
+        hy = "FuturePath Education Group";
+    }
+    document.getElementById("display-stock").src = gyatt;
+    document.getElementById("display-stock").onclick = function(){getmoney(`${hy}`)};
+    documemt.getElementById("confirm-button").onclick = function(){confirm(`${hy}`)};
+}
+function stockdisplay4(){
+    gyatt = "{{ url_for('static', filename='img/win4.png') }}";
+    hy = "AlphaEd Academy";
+    if (!mag){
+        gyatt = "{{ url_for('static', filename='img/win2.png') }}";
+        hy = "Arasaka Corp.";
+    }
+    document.getElementById("display-stock").src = gyatt;
+    document.getElementById("display-stock").onclick = function(){getmoney(`${hy}`)};
+    documemt.getElementById("confirm-button").onclick = function(){confirm(`${hy}`)};
+}
+function stockdisplay5(){
+    gyatt = "{{ url_for('static', filename='img/lose6.png') }}";
+    hy = "TerraBloom AgTech";
+    if (!mag){
+        gyatt = "{{ url_for('static', filename='img/lose5.png') }}";
+        hy = "Wasp Pay"
+    }
+    document.getElementById("display-stock").src = gyatt;
+    document.getElementById("display-stock").onclick = function(){getmoney(`${hy}`)};
+    documemt.getElementById("confirm-button").onclick = function(){confirm(`${hy}`)};
 }
 
-
-
-var money = 0;//money of user
-function popup(){
-    document.getElementById("pop-up").style.display = "block";
+function popup(b){
+    document.getElementById("pop-up").style.display = "flex";
+    document.getElementById('text-box-title').innerHTML = `Investing in ${b}`
 }
 function cancel(){
     document.getElementById("pop-up").style.display = 'none';
 }
-function stockdisplay(n){
-    if (document.getElementById("display-stock").src == filenamelist[n]){
-        popup();
+function confirm(c){
+    var amt = document.getElementById("invest-amount").value;
+    if (Number(amt)>money){
+        alert('Not enough money')
+    }
+    else if (Number(amt)==0){
+        alert('Input must not bee empty')
     }
     else{
-        document.getElementById("display-stock").src = filenamelist[n];
+        const stored = Number(amt);
+        for (let i of Object.keys(stock)){
+            if (stock[i]['name']==c){
+                var result = Math.floor(Math.random() * 101);
+                if (result<=stock[i]['winc']){
+                    result = 'win';
+                }
+                else{
+                    result = 'lose';
+                }
+                var change = Number(amt)*(stock[i][result])
+                if (result == "win"){
+                    alert(`You won $${change-stored}`)
+                    money += (change-stored)*mileage
+                    break
+                }
+                else{
+                    alert(`You lose $${stored-change}`)
+                    money -= (stored-change)
+                    break
+                }
+            }
+        }
+        cancel()
     }
+    localStorage.setItem('money',money)
 }
-function confirm(){
-    var amt = document.getElementById("invest-amount").value;
-    cancel()
-    money -= amt;
-    //run algorithm using amt
-}
-var show = 0;
-function showstocklist(){
-    if (show==0){
-        show+=1;
-        document.getElementById("stock-library-bg").style.bottom = '0';
-    }
-    else if (show==1){
-        show-=1;
-        document.getElementById('stock-library-bg').style.bottom = '-80%';
-    }
-}
+
 </script>
 </html>

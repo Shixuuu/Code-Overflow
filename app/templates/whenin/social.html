@@ -8,20 +8,24 @@
     <div>
 
         <div class="addandReq">
-            <div class="button">
-                <a href="#" >
-                    <div  id="addFriendButton">
+            <a href="#" >
+            <div class="button" id="addFriendButton">
+                
+                    <div  >
                         Add Friend
                     </div>
-                </a>
+            
             </div>
-            <div class="button">
-                <a href="#">
-                    <div id="friendRequestButton">
+            </a>
+            <a href="#">
+            <div class="button" id="friendRequestButton">
+                
+                    <div >
                         Friend Requests
                     </div>
-                </a>
+                
             </div>
+            </a>
         </div>
     </div>
     
@@ -37,9 +41,9 @@
         <tbody>
             {% for friend in friends %}
             <tr>
-                <td><img src="{{ friend.friend_image }}" id="img"></td>
-                <td>{{ friend.friend_name }}</td>
-                <td>${{ friend.friend_money }}</td>
+                <td style="text-align: center;"><img src="{{ url_for('static', filename='img/YELLOWPERSON.png') }}" id="img"></td>
+                <td style="text-align: center;">{{ friend.friend_name }}</td>
+                <td style="text-align: center;">${{ friend.friend_money }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -50,8 +54,8 @@
 </div>
 {% include 'profileButton.html'%}
 <!-- Add Friend Modal Structure -->
-<div id="addFriendModal" class="modal">
-    <div class="modal-content">
+<div id="addFriendModal" class="modal" style="transform: scale(1);">
+    <div class="modal-content" style="transform: scale(1.5);">
         <span class="close">&times;</span>
         <div id="modal-body">
             {% include 'whenin/addFriends.html' %}
@@ -61,7 +65,7 @@
 
 <!-- Friend Request Modal Structure -->
 <div id="friendRequestModal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content" style="transform: scale(1.5);">
         <span class="close">&times;</span>
         <div id="modal-body">
             {% include 'whenin/friendReq.html' %}
@@ -95,7 +99,7 @@
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #000000;
-    width: 80%;
+    width: 40%;
 
 }
 

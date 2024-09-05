@@ -1,4 +1,8 @@
 from app import db
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired, Email, ValidationError
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # Define a User model
@@ -57,4 +61,6 @@ class FriendRequest(db.Model):
             'receiver_username': self.receiver.username,
             # Add other fields as necessary
         }
+    
+
     

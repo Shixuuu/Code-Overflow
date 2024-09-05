@@ -19,7 +19,6 @@
             z-index: -9;
         }
 
-
         .background{
             display:block;
             z-index: -9;
@@ -29,67 +28,74 @@
             height:100vh;
         }
 
-    .insurance_button {
-        transition: ease-in-out 0.2s;
-        box-shadow: 0px 10px 10px black;
-        position: absolute;
-        border-style: none;
-        padding: 15px;
-        padding-left: 20px;
-        padding-right: 20px;
-        background-color: #ffde59;
-        font-size: 15px;
-        clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-    }
+        .insurance_button {
+            transition: ease-in-out 0.2s;
+            box-shadow: 0px 10px 10px black;
+            position: absolute;
+            border-style: none;
+            padding: 15px;
+            padding-left: 20px;
+            padding-right: 20px;
+            background-color: #ffde59;
+            font-size: 15px;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            cursor: pointer;
+        }
 
-    .insurance_button:hover{
-        box-shadow: 0px 10px 10px black;
-        transition: ease-in-out 0.2s;
-        transform:scale(1.3);
-    }
+        .insurance_button:hover {
+            box-shadow: 0px 10px 10px black;
+            transition: ease-in-out 0.2s;
+            transform: scale(1.3);
+        }
 
-    #button1 {
+        /* Correct positions for the buttons */
+        #button1 {
+            position: fixed;
+            top: 84vh;
+            left: 17vw;
+        }
 
-        margin-top: 71vh;
-        margin-left: 17.5vw;
-    }
+        #button2 {
+            position: fixed;
+            top: 58vh;
+            left: 37.25vw;
+        }
 
-    #button2 {
-        margin-top: 47vh;
-        margin-left: 37.5vw;
-    }
+        #button3 {
+            position: fixed;
+            top: 84vh;
+            left: 57.5vw;
+        }
 
-    #button3 {
-        margin-top: 71vh;
-        margin-left: 58vw;
-    }
+        #button4 {
+            position: fixed;
+            top: 58vh;
+            left: 78vw;
+        }
 
-    #button4 {
-        margin-top: 45vh;
-        margin-left: 78.5vw;
-    }
-    .frame {
-        height: 88vh;
-        border:#E2E2E2 16px solid;
-        border-top:#E2E2E2 6px solid;
-        border-radius: 7%;
-        background-color: transparent;
-        position: fixed;
-        width: calc(100vw - 32px);
-        overflow: hidden;
-        z-index: -5;
-    }
+        .frame {
+            height: 88vh;
+            border:#E2E2E2 16px solid;
+            border-top:#E2E2E2 6px solid;
+            border-radius: 7%;
+            background-color: transparent;
+            position: fixed;
+            width: calc(100vw - 32px);
+            overflow: hidden;
+            z-index: -5;
+        }
 
-    .hard {
-        background-color:#E2E2E2;
-        height: 100px;
-        width: 16px;
-        position: fixed;
-        bottom: 30px;
-        right: 0px;
-        z-index: 9;
-    }
-    .backgroundbig {
+        .hard {
+            background-color:#E2E2E2;
+            height: 200px;
+            width: 24px;
+            position: fixed;
+            bottom: 50px;
+            right: 0px;
+            z-index: 9;
+        }
+
+        .backgroundbig {
             display:block;
             z-index: -9;
             position:absolute;
@@ -98,17 +104,56 @@
             height:100vh;
         }
 
+        #butt1, #butt2, #butt3, #butt4 {
+            height: 50px;
+            width: 200px;
+            bottom: 140px;
+            right: 0px;
+            clip-path: polygon(10% 0%, 90% 0%, 90% 0%, 90% 100%, 10% 100%, 0% 50%);
+            position: fixed;
+            background-color: #ffa800;
+            display: none;
+        }
+        #moneyDisplay{
+            position: absolute;
+            top:27%;
+            left:3%;
+            font-size: 200%;
+        }
     </style>
     <title>Document</title>
 </head>
 <body>
+    <script>
+       function showDiv(divId) {
+            // Hide all divs
+            document.getElementById('butt1').style.display = 'none';
+            document.getElementById('butt2').style.display = 'none';
+            document.getElementById('butt3').style.display = 'none';
+            document.getElementById('butt4').style.display = 'none';
+
+            // Show the selected div
+            document.getElementById(divId).style.display = 'flex';
+    </script>
+
     {% include 'navbar.html'%}
     <img src="{{ url_for('static', filename='img/insurancebg3.png') }}" alt="Icon" class="background" style="left:-10.7%;width:118.7vw; height:124vh; top:-15%; transform: scale(1.01); right: 5vw;">
     {% include 'profileButton.html'%}
     <img src="{{ url_for('static', filename='img/insurance.png') }}" alt="Icon" class="insuranceimage">
-    <button id='button1' class='insurance_button'>$500</button>
-    <button id='button2' class='insurance_button'>$2000</button>
-    <button id='button3' class='insurance_button'>$5000</button>
-    <button id='button4' class='insurance_button'>$10000</button>
+    <!-- Divs for each option -->
+    <div id="button1" class="insurance_button" onclick="selectInsurance('butt1')" style="margin:0">$500</div>
+    <div id="button2" class="insurance_button" onclick="selectInsurance('butt2')" style="margin:0">$2000</div>
+    <div id="button3" class="insurance_button" onclick="selectInsurance('butt3')" style="margin:0">$5000</div>
+    <div id="button4" class="insurance_button" onclick="selectInsurance('butt4')" style="margin:0">$10000</div>
+
+    <!-- Divs to be displayed -->
+    <div id="butt1"><div style="padding-top: 15px;padding-left: 18px;">pollenprotect</div></div>
+    <div id="butt2"><div style="padding-top: 15px;padding-left: 18px;">HoneyShield</div></div>
+    <div id="butt3"><div style="padding-top: 15px;padding-left: 18px;">BeeSafe</div></div>
+    <div id="butt4"><div style="padding-top: 15px;padding-left: 18px;">hivehaven</div></div>
+
+    <div class="hard"></div>
+
+    <!-- JavaScript to handle div display and saving to localStorage -->
 </body>
 </html>

@@ -1,7 +1,7 @@
 from app import app
 from flask import render_template, request, redirect, url_for,flash,session ,jsonify
 from app.models import User, Friend, FriendRequest,db
-from app.form import RegistrationForm, LoginForm
+from app.form import RegistrationForm, LoginForm ,ProfileUpdateForm
 
 
 def make_everyone_friends():
@@ -273,14 +273,28 @@ def search_and_send_request():
 
     return jsonify(response)
 
-@app.route('/profile/<int:user_id>')
+
+@app.route('/profile/<int:user_id>', methods=['GET', 'POST'])
 def profile(user_id):
+    form = ProfileUpdateForm()
     user = User.query.get(user_id)
-    if user:
-        return render_template('profile.html', user=user, user_id=user_id)
-    else:
+    if not user:
         return "User not found", 404
-    
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            user.username = form.username.data
+            if form.email.data:  # Only update email if the field is not empty
+                user.email = form.email.data
+            db.session.commit()
+            flash('Profile updated successfully!', 'success')
+            return redirect(url_for('profile', user_id=user_id))
+        elif form.errors:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    flash(error, 'danger')
+
+    return render_template('profile.html', user=user, user_id=user_id, form=form)
 @app.route('/loan', methods=['POST'])
 def loan():
     user_id = session.get('user_id')
@@ -313,3 +327,4 @@ def loan():
     db.session.commit()
 
     return jsonify({'success': True})
+

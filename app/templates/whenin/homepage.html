@@ -5,13 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <script>
+        function get_money() {
+            let money = parseInt(localStorage.getItem('money'));
+            let mileage = parseFloat(localStorage.getItem('mileage'));
+        }
+        window.onload = function() {
+            get_money();
+            let money = parseInt(localStorage.getItem('money'));  // Retrieve stored value
+            document.getElementById('moneyDisplay').innerHTML = `Honey: $${money}`;  // Update <p> content
+            document.getElementById('mileageDisplay').innerHTML = `Mileage: ${mileage}x`;  // Update <p> content
+        }
+        
+        const goal = 10000;
+        var mile1 = Math.round(goal/4);
+        var mile2 = Math.round(goal/2);
+        var mile3 = Math.round(goal*0.75);
+        if (money == 0){
+            document.getElementById('jar').src = "{{ url_for('static', filename='img/zero.png') }}";
+        }
+        else if (money<mile1){
+            document.getElementById('jar').src = "{{ url_for('static', filename='img/quarter.png') }}";
+        }
+        else if (money<mile2){
+            document.getElementById('jar').src = "{{ url_for('static', filename='img/half.png') }}";
+        }
+        else if (money<mile3){
+            document.getElementById('jar').src = "{{ url_for('static', filename='img/almost.png') }}";
+        }
+        else if (money<goal){
+            document.getElementById('jar').src = "{{ url_for('static', filename='img/five.png') }}";
+        }
+        else if (money>=goal){
+            document.getElementById('jar').src = "{{ url_for('static', filename='img/full.png') }}";
+        }
+        function reset(){
+            if (money>=goal){
+                money-=goal;
+                mileage += 1.1
+                localStorage.setItem("mileage",mileage)
+            }
+            if (money == 0){
+                document.getElementById('jar').src = "{{ url_for('static', filename='img/zero.png') }}";
+            }
+            else if (money<mile1){
+                document.getElementById('jar').src = "{{ url_for('static', filename='img/quarter.png') }}";
+            }
+            else if (money<mile2){
+                document.getElementById('jar').src = "{{ url_for('static', filename='img/half.png') }}";
+            }
+            else if (money<mile3){
+                document.getElementById('jar').src = "{{ url_for('static', filename='img/almost.png') }}";
+            }
+            else if (money<goal){
+                document.getElementById('jar').src = "{{ url_for('static', filename='img/five.png') }}";
+            }
+            else if (money>=goal){
+                document.getElementById('jar').src = "{{ url_for('static', filename='img/full.png') }}";
+            }
+        }
+    </script>
     <style>
         body{
             margin: 0;
             padding: 0;
             overflow: hidden;
         }
-
 
         .backgroundbig {
             display:block;
@@ -326,7 +385,7 @@
 
         #goal {
             position: relative;
-            top: 20vh;
+            top: 0vh;
             left: 4vw;
             font-size: 40px;
         }
@@ -336,6 +395,20 @@
             position:relative;
             top:30vh;
             left: 4vw;
+            font-size: 40px;
+        }
+
+        
+        #moneyDisplay {
+            position:relative;
+            top:30vh;
+            left: 7.9vw;
+            font-size: 40px;
+        }
+        #mileageDisplay{
+            position:relative;
+            top:33vh;
+            left: 7.9vw;
             font-size: 40px;
         }
 
@@ -349,13 +422,45 @@
             z-index: 9;
         }
 
+        #cell1 {
+            width: 50vw;
+            height: 80vh;
+            background-color: #4a4646;
+            position: absolute;
+            top: 15vh;
+            left: 25vw;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        #cell2 {
+            width: 45vw;
+            height: 72vh;
+            background-color: #ffa800;
+            position: absolute;
+            top: 4vh;
+            left: 2.5vw;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        #beeconomy {
+            left: 10.5vw;
+            top: 30vh;
+            position: absolute;
+            font-size: 4rem;
+        }
     </style>
 </head>
 {% include 'navbar.html' %} 
 <img src="{{ url_for('static', filename='img/honeyjarbg3.png') }}"  class="backgroundbig" style="left:-7.6%;width:115.5vw; height:126vh; top:-15%; transform: scale(1.01); right: 5vw;">
 {% include 'profileButton.html'%}
-    <p id="goal">GOAL: (placeholder)</p>
-    <p id="progress">COUNTER: (placeholder)</p>
-    <img src="{{ url_for('static', filename='img/100.png') }}"  id="jar">
+    <p id="goal">GOAL: $10000</p>
+    <p id="moneyDisplay">Honey: $0.00</p>
+    <p id="mileageDisplay">Mileage: 1.0x</p>
+    
+    <div id="cell1">
+        <div id='cell2'>
+            <h1 id="beeconomy">Beeconomy</h1>
+        </div>
+    </div>
 </body>
 </html>

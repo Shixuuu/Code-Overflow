@@ -34,3 +34,21 @@ class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
+class ProfileUpdateForm(FlaskForm):
+    username = StringField('Username')
+    email = StringField('Email')
+    submit = SubmitField('Update Profile')
+
+    def validate_username(self, field):
+        if field.data:
+            if User.query.filter_by(username=field.data).first():
+                raise ValidationError('Username is already in use.')
+            if len(field.data) < 5:
+                raise ValidationError('Username must be at least 5 characters long.')
+
+    def validate_email(self, field):
+        if field.data:  # Only validate if the field is not empty
+            if User.query.filter_by(email=field.data).first():
+                raise ValidationError('Email is already in use.')
+            if not '@' in field.data:
+                raise ValidationError('Invalid email address.')

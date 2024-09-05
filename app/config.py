@@ -8,6 +8,8 @@ class Config:
     SECRET_KEY = 'supersecretkey'
     SQLALCHEMY_DATABASE_URI = 'sqlite:///app.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    WTF_CSRF_ENABLED = False  # Disable CSRF protection
+    
 
 
 app = Flask(__name__)
