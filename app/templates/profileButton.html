@@ -135,7 +135,7 @@
 
 </head>
 <body>
-    <a href="{{ url_for('profile') }}"><div class="profile-button">
+    <a href="{{ url_for('profile', user_id=session.get('user_id')) }}"><div class="profile-button">
         <div class="cir"></div>
         <div class="rec"></div>
         <div class="username">Profile Settings</div>
