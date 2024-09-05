@@ -273,11 +273,11 @@ def search_and_send_request():
 
     return jsonify(response)
 
-@app.route('/profile')
+@app.route('/profile/<int:user_id>')
 def profile(user_id):
     user = User.query.get(user_id)
     if user:
-        return render_template('profile.html', user=user)
+        return render_template('profile.html', user=user, user_id=user_id)
     else:
         return "User not found", 404
     
