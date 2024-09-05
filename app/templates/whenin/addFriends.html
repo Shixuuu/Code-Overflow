@@ -55,25 +55,7 @@
             .catch(error => console.error('Error:', error)); // Handle errors
         });
     
-        // Open the modal and clear searchResults when "Add Friend" is clicked
-        document.getElementById("addFriendButton").addEventListener("click", function(event) {
-            event.preventDefault();
-            var searchResults = document.getElementById("searchResults");
-            searchResults.innerHTML = ''; // Clear any previous results or messages
-            addFriendModal.style.display = "block";
-        });
-    
-        // Close the modal when the close button (X) is clicked
-        document.querySelector(".modal .close").addEventListener("click", function() {
-            addFriendModal.style.display = "none"; // Hide the modal
-        });
-    
-        // Close the modal if the user clicks outside of it
-        window.onclick = function(event) {
-            if (event.target == addFriendModal) {
-                addFriendModal.style.display = "none";
-            }
-        };
+
     });
     </script>
     

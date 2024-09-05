@@ -25,48 +25,4 @@
     {% endif %}
     {% endwith %}
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var addFriendModal = document.getElementById("addFriendModal");
-        var friendRequestModal = document.getElementById("friendRequestModal");
-        var closeButtons = document.getElementsByClassName("close");
 
-        // When the user clicks on <span> (x), close the modal
-        for (var i = 0; i < closeButtons.length; i++) {
-            closeButtons[i].onclick = function() {
-                addFriendModal.style.display = "none";
-                friendRequestModal.style.display = "none";
-            }
-        }
-
-        // Function to show the Add Friend modal
-        function showAddFriendModal() {
-            addFriendModal.style.display = "block";
-        }
-
-        // Function to show the Friend Request modal
-        function showFriendRequestModal() {
-            fetch('/friend_requests')  // Fetch the friend requests data
-                .then(response => response.text())  // Get the HTML response
-                .then(html => {
-                    var modalBody = document.getElementById("modal-body");
-                    modalBody.innerHTML = html;  // Inject the HTML into the modal
-                    friendRequestModal.style.display = "block";  // Show the modal
-                })
-                .catch(error => console.error('Error:', error));
-        }
-
-        // Add event listener to the "Add Friend" button
-        document.getElementById("addFriendButton").addEventListener("click", function(event) {
-            event.preventDefault();
-            showAddFriendModal();
-        });
-
-        // Add event listener to the "Friend Request" button
-        document.getElementById("friendRequestButton").addEventListener("click", function(event) {
-            event.preventDefault();
-            showFriendRequestModal();
-        });
-
-    });
-</script>
