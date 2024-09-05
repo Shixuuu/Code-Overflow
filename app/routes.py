@@ -1,6 +1,6 @@
 from app import app
-from flask import render_template, request, redirect, url_for,flash,session
-from app.models import User, Friend, db
+from flask import render_template, request, redirect, url_for,flash,session ,jsonify
+from app.models import User, Friend, FriendRequest, db
 from app.form import RegistrationForm, LoginForm
 
 
@@ -71,6 +71,7 @@ def personalized_questions(user_id):
         return redirect(url_for('homepage'))
     return render_template('whenin/personalized_questions.html', user=user)
 
+
 @app.route('/friends/<int:user_id>')
 def friends(user_id):
     user = User.query.get(user_id)
@@ -90,15 +91,21 @@ def homepage():
     user_id = session.get('user_id')
     return render_template('whenin/homepage.html', user_id=user_id)
 
-@app.route('/investment')
+@app.route('/investment', methods=['GET', 'POST'])
 def investment():
     user_id = session.get('user_id')
     if user_id:
         user = User.query.get(user_id)
+        if request.method == 'POST':
+            sector = request.form.get('sector')
+            # Process the sector data as needed
+            flash('Sector preference saved!', 'success')
+        if 'first_investment_visit' not in session:
+            session['first_investment_visit'] = True
+            flash('Welcome to the investment page!', 'firstvisit')
         return render_template('whenin/investment.html', user=user, user_id=user_id)
     else:
         return redirect(url_for('login'))
-
 @app.route('/insurance')
 def insurance():
     user_id = session.get('user_id')
@@ -107,7 +114,26 @@ def insurance():
 @app.route('/social')
 def social():
     user_id = session.get('user_id')
-    return render_template('whenin/social.html', user_id=user_id)
+    friend_requests = []
+    friends = []
+    if user_id:
+        # Retrieve friend requests where receiver_id matches the current user's ID
+        friend_requests = FriendRequest.query.filter_by(receiver_id=user_id).all()
+        friend_requests = [request.to_dict() for request in friend_requests]
+
+        # Retrieve friends where user_id matches the current user's ID
+        friends = Friend.query.filter_by(user_id=user_id).all()
+        friends = [{
+            'id': friend.id,
+            'user_id': friend.user_id,
+            'friend_id': friend.friend_id,
+            'friend_name': friend.friend_name,
+            # 'friend_image': friend.friend_image,
+            'friend_money': User.query.get(friend.friend_id).money  # Assuming 'money' is a field in User model
+        } for friend in friends]
+
+    return render_template('whenin/social.html', user_id=user_id, friend_requests=friend_requests, friends=friends)
+
 @app.route('/loaning/<int:user_id>')
 def loaning(user_id):
     user = User.query.get(user_id)

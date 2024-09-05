@@ -5,6 +5,8 @@
             {% for category, message in messages %}
                 {% if category in ['loginerror', 'signuperror', 'success'] %}
                     <p>{{ message }}</p>
+                {% elif category == 'firstvisit' %}
+                    {% include 'whenin/personalized_questions.html' %}
                 {% endif %}
             {% endfor %}
         {% endwith %}
@@ -30,11 +32,11 @@
         }
     }
 
-    // Show the popup if there is an error message or success message
+    // Show the popup if there is an error message, success message, or first visit message
     window.onload = function() {
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% for category, message in messages %}
-                {% if category in ['signuperror', 'loginerror', 'success'] %}
+                {% if category in ['signuperror', 'loginerror', 'success', 'firstvisit'] %}
                     document.getElementById('popup').setAttribute('data-category', '{{ category }}');
                     showPopup();
                 {% endif %}

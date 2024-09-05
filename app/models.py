@@ -25,7 +25,35 @@ class Friend(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     friend_id = db.Column(db.Integer, nullable=False)
     friend_name = db.Column(db.String(80), nullable=False)
-    friend_image = db.Column(db.String(120), nullable=True)
+    # friend_image = db.Column(db.String(120), nullable=True)
 
     def __repr__(self):
         return f'<Friend {self.friend_name}>'
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'friend_id': self.friend_id,
+            'friend_name': self.friend_name,
+            # 'friend_image': self.friend_image  # Uncomment if you have this field
+        }
+
+class FriendRequest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    timestamp = db.Column(db.DateTime, default=db.func.current_timestamp())
+
+    sender = db.relationship('User', foreign_keys=[sender_id], backref='sent_requests')
+    receiver = db.relationship('User', foreign_keys=[receiver_id], backref='received_requests')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'sender_id': self.sender_id,
+            'receiver_id': self.receiver_id,
+            'sender_username': self.sender.username,
+            'receiver_username': self.receiver.username,
+            # Add other fields as necessary
+        }

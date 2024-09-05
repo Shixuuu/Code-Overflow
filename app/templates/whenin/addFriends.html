@@ -1,0 +1,79 @@
+<div class="content">
+    <h2>Search for Users</h2>
+    <form id="addFriendForm" method="post" action="{{ url_for('search_and_send_request') }}">
+        <input type="text" name="q" placeholder="Enter username" required>
+        <button type="submit">Search</button>
+    </form>
+    <div id="searchResults">
+        <!-- This is where the JSON response will be injected -->
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var addFriendModal = document.getElementById("addFriendModal");
+    
+        // Handle form submission via AJAX
+        document.getElementById("addFriendForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent default form submission
+    
+            var form = event.target;
+            var formData = new FormData(form);
+    
+            fetch(form.action, {
+                method: form.method,
+                body: formData,
+            })
+            .then(response => response.json()) // Parse JSON response
+            .then(data => {
+                // Inject the JSON response into the searchResults div
+                var searchResults = document.getElementById("searchResults");
+    
+                // Clear previous content
+                searchResults.innerHTML = '';
+    
+                // Display a message or result based on the JSON response
+                var resultHTML = '';
+    
+                if (data.status === 'success') {
+                    resultHTML = '<div class="alert alert-success">' + data.message + '</div>';
+                } else if (data.status === 'info') {
+                    resultHTML = '<div class="alert alert-info">' + data.message + '</div>';
+                } else if (data.status === 'danger') {
+                    resultHTML = '<div class="alert alert-danger">' + data.message + '</div>';
+                }
+    
+                // Inject the result HTML into the searchResults div
+                searchResults.innerHTML = resultHTML;
+    
+                // Show the modal popup
+                addFriendModal.style.display = "block";
+    
+                // Clear the input field after submission
+                form.reset();
+            })
+            .catch(error => console.error('Error:', error)); // Handle errors
+        });
+    
+        // Open the modal and clear searchResults when "Add Friend" is clicked
+        document.getElementById("addFriendButton").addEventListener("click", function(event) {
+            event.preventDefault();
+            var searchResults = document.getElementById("searchResults");
+            searchResults.innerHTML = ''; // Clear any previous results or messages
+            addFriendModal.style.display = "block";
+        });
+    
+        // Close the modal when the close button (X) is clicked
+        document.querySelector(".modal .close").addEventListener("click", function() {
+            addFriendModal.style.display = "none"; // Hide the modal
+        });
+    
+        // Close the modal if the user clicks outside of it
+        window.onclick = function(event) {
+            if (event.target == addFriendModal) {
+                addFriendModal.style.display = "none";
+            }
+        };
+    });
+    </script>
+    
