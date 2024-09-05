@@ -1,5 +1,12 @@
 <!DOCTYPE html>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
 <style>
+    body{
+        font-family:silkscreen;
+    }
     #poly{
         clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); 
     }
@@ -28,9 +35,42 @@
     div{
         font-family: silkscreen, Arial, Helvetica, sans-serif;
     }
+    .frame {
+        height: 88vh;
+        border:#E2E2E2 16px solid;
+        border-top:#E2E2E2 6px solid;
+        border-radius: 7%;
+        background-color: transparent;
+        position: fixed;
+        width: calc(100vw - 32px);
+        overflow: hidden;
+        z-index: -9;
+    }
+
+    .hard {
+        background-color:#E2E2E2;
+        height: 100px;
+        width: 16px;
+        position: fixed;
+        bottom: 30px;
+        right: 0px;
+        z-index: 9;
+    }
+    .backgroundbig {
+            display:block;
+            z-index: -9;
+            position:absolute;
+            top: 0;
+            width:100vw;
+            height:100vh;
+        }
+
 </style>
 <html>
     {% include 'navbar.html'%}
+    <div class="frame"><img src="{{ url_for('static', filename='img/jarbg.png') }}"  class="backgroundbig"></div>
+
+    {% include 'profileButton.html'%}
     <div id='bg' style="display:flex;flex-direction: row;">
         <div style="width:50%;display:flex;justify-content: center;">
             <div id="poly" style="padding: 35%; margin: 10%; background: #ffa800;display:flex;justify-content: center;">

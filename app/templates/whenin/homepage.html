@@ -4,21 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body{
             margin: 0;
             padding: 0;
+            background-color: #E2E2E2;
         }
-        #insuranceimages {
-            margin-top: 21vh;
-            width: 100vw;
-            position: absolute;
-            top: 0;
-        }
+
 
         .backgroundbig {
             display:block;
-            z-index: -1;
+            z-index: -9;
             position:absolute;
             top: 0;
             width:100vw;
@@ -323,31 +322,53 @@
 
         #jar {
             height: 78vh;
-            margin-top: 20vh;
-            margin-left: 54.5vh;
+            top: 20vh;
+            left: 60vh;
             position: absolute;
-            top: 0;
         }
 
         #goal {
-            margin-top: 20vh;
-            margin-left: 4vw;
+            position: relative;
+            top: 20vh;
+            left: 4vw;
             font-size: 40px;
         }
         
         
         #progress {
-            margin-top: 10vh;
-            margin-left: 4vw;
+            position:relative;
+            top:30vh;
+            left: 4vw;
             font-size: 40px;
         }
+        .frame {
+            height: 88vh;
+            border:#E2E2E2 16px solid;
+            border-top:#E2E2E2 6px solid;
+            border-radius: 7%;
+            background-color: transparent;
+            position: fixed;
+            width: calc(100vw - 32px);
+            overflow: hidden;
+        }
+
+        .hard {
+            background-color:#E2E2E2;
+            height: 100px;
+            width: 16px;
+            position: fixed;
+            bottom: 30px;
+            right: 0px;
+            z-index: 9;
+        }
+
     </style>
 </head>
 {% include 'navbar.html' %} 
+<div class="frame"><img src="{{ url_for('static', filename='img/jarbg.png') }}"  class="backgroundbig"></div>
 {% include 'profileButton.html'%}
     <p id="goal">GOAL: (placeholder)</p>
     <p id="progress">COUNTER: (placeholder)</p>
-    <img src="{{ url_for('static', filename='img/jarbg.png') }}"  class="backgroundbig">
     <img src="{{ url_for('static', filename='img/100.png') }}"  id="jar">
 </body>
 </html>

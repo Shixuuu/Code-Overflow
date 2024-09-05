@@ -117,8 +117,6 @@ def loaning(user_id):
     else:
         return "User not found", 404
 
-<<<<<<< Updated upstream
-=======
 
 @app.route('/friend_requests')
 def friend_requests():
@@ -211,4 +209,3 @@ def search_and_send_request():
 def profile():
     user_id = session.get('user_id')
     return render_template('profile.html', user_id=user_id)
->>>>>>> Stashed changes

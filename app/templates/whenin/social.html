@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
 <style>
+    body{font-family: silkscreen;}
+            .backgroundbig {
+            display:block;
+            z-index: -9;
+            position:absolute;
+            top: 0;
+            width:100vw;
+            height:100vh;
+        }
 #hexbutton{
     clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
     background: #ffa800;
@@ -25,8 +37,31 @@
 #search:hover{
     cursor: url(searchcursor.png)
 }
+.frame {
+    height: 88vh;
+    border:#E2E2E2 16px solid;
+    border-top:#E2E2E2 6px solid;
+    border-radius: 7%;
+    background-color: transparent;
+    position: fixed;
+    width: calc(100vw - 32px);
+    overflow: hidden;
+}
+
+.hard {
+    background-color:#E2E2E2;
+    height: 100px;
+    width: 16px;
+    position: fixed;
+    bottom: 30px;
+    right: 0px;
+    z-index: 9;
+}
+
 </style>
 {% include 'navbar.html'%}
+<div class="frame"><img src="{{ url_for('static', filename='img/jarbg.png') }}"  class="backgroundbig"></div>
+{% include 'profileButton.html'%}
 <div id="bg" style="display:flex;align-items: center;justify-content: center;flex-direction: column;padding-bottom:80px">
     <div style="width: 75%;background:#e2e2e2;display: flex;flex-direction: row;margin-top:100px">
         <form style="width:80%">
